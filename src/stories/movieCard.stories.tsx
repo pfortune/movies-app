@@ -1,23 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import MovieCard from "../components/movieCard";
 import SampleMovie from "./sampleData";
-import { MemoryRouter } from "react-router";
+import { StaticRouter } from "react-router-dom/server";
 import MoviesContextProvider from "../contexts/moviesContext";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 
-const meta: Meta<typeof MovieCard> = {
+const meta = {
   title: 'Home Page/MovieCard',
   component: MovieCard,
   decorators: [
     (Story) => (
-      <MemoryRouter initialEntries={["/"]}>
+      <StaticRouter location="/">
         <MoviesContextProvider>
           {Story()}
         </MoviesContextProvider>
-      </MemoryRouter>
+      </StaticRouter>
     ),
   ],
-};
+} satisfies Meta<typeof MovieCard>;
 
 export default meta;
 
@@ -27,16 +27,15 @@ export const Basic: Story = {
   args: {
     action: (movie) => <AddToFavouritesIcon movie={movie} />,
     movie: SampleMovie,
-  }
+  },
 };
 Basic.storyName = "Default";
 
 const sampleNoPoster = { ...SampleMovie, poster_path: undefined };
-
 export const Exceptional: Story = {
   args: {
     movie: sampleNoPoster,
     action: (movie) => <AddToFavouritesIcon movie={movie} />,
-  }
+  },
 };
 Exceptional.storyName = "Exception";

@@ -3,26 +3,22 @@ import MovieListHeader from "../components/headerMovieList";
 import { MemoryRouter } from "react-router";
 import MoviesContextProvider from "../contexts/moviesContext";
 
-const meta: Meta<typeof MovieListHeader> = {
+const meta = {
   title: 'Home Page/Header',
   component: MovieListHeader,
   decorators: [
-    (Story) => (
-      <MemoryRouter initialEntries={["/"]}>
-        <MoviesContextProvider>
-          <Story />
-        </MoviesContextProvider>
-      </MemoryRouter>
-    ),
+    (Story) => <MemoryRouter initialEntries={["/"]}>{Story()}</MemoryRouter>,
+    (Story) => <MoviesContextProvider>{Story()}</MoviesContextProvider>,
   ],
-};
+} satisfies Meta<typeof MovieListHeader>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  args: { title: 'Discover Movies' },
-};
+  args: { title: 'Discover Movies' }
 
+};
 Basic.storyName = "Default";
+

@@ -7,20 +7,15 @@ const meta = {
   title: "App Header",
   component: SiteHeader,
   decorators: [
-    (Story) => (
-      <MemoryRouter initialEntries={["/"]}>
-        <Story />
-      </MemoryRouter>
-    ),
+    (Story: React.FC) => <MemoryRouter initialEntries={["/"]}><Story /></MemoryRouter>,
   ],
-} satisfies Meta<typeof SiteHeader>;
+}satisfies Meta<typeof SiteHeader>;;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Basic: Story = {
-  args: {},
+export const Basic: Story = { args: {}
+ 
 };
-
 Basic.storyName = "Default";
