@@ -39,7 +39,7 @@ const SiteHeader: React.FC<{ setDrawerOpen: React.Dispatch<React.SetStateAction<
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h4" sx={{ flexGrow: 1 }}>
-                        TMDB Client
+                        Movie & TV Guide
                     </Typography>
                     <Typography variant="h6">
                         All you ever wanted to know about Movies!

@@ -47,7 +47,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
     return <h1>{(error as Error).message}</h1>;
   }
 
-  const genres = data?.genres || [];
+  const genres = data || [];
   if (!genres.some((genre: GenreData['genres'][number]) => genre.id === "0")) {
     genres.unshift({ id: "0", name: "All" });
   }

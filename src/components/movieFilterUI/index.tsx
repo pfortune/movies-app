@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import FilterCard from "../filterMoviesCard";
 import Fab from "@mui/material/Fab";
-import Drawer from "@mui/material/Drawer";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
 import { BaseMovieProps } from "../../types/interfaces";
 
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
@@ -34,29 +36,32 @@ interface MovieFilterUIProps {
 
 
 const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     return (
         <>
             <Fab
                 color="secondary"
                 variant="extended"
-                onClick={() => setDrawerOpen(true)}
+                onClick={() => setModalOpen(true)}
                 sx={styles.fab}
             >
                 Filter
             </Fab>
-            <Drawer
-                anchor="left"
-                open={drawerOpen}
-                onClose={() => setDrawerOpen(false)}
+            <Dialog
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                aria-labelledby="filter-dialog-title"
             >
-                <FilterCard
-                    onUserInput={onFilterValuesChange}
-                    titleFilter={titleFilter}
-                    genreFilter={genreFilter}
-                />
-            </Drawer>
+                <DialogTitle id="filter-dialog-title">Filter Movies</DialogTitle>
+                <DialogContent>
+                    <FilterCard
+                        onUserInput={onFilterValuesChange}
+                        titleFilter={titleFilter}
+                        genreFilter={genreFilter}
+                    />
+                </DialogContent>
+            </Dialog>
         </>
     );
 };
