@@ -29,10 +29,8 @@ export const getMovie = async (id: string) => {
 export const getGenres = async () => {
   const url = `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`;
   const data = await fetchData(url);
-  return data.genres
-    ;
+  return data.genres;
 };
-
 
 export const getMovieImages = async (id: string | number) => {
   const url = `${BASE_URL}/movie/${id}/images?api_key=${API_KEY}`;

@@ -5,6 +5,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import { BaseMovieProps } from "../../types/interfaces";
+import MovieFilterIcon from '@mui/icons-material/MovieFilter';
+import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
     return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
@@ -24,9 +27,29 @@ const styles = {
         marginTop: 8,
         position: "fixed",
         top: 20,
-        right: 2,
+        right: 16,
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    },
+    dialog: {
+        padding: '20px',
+        backgroundColor: '#ffffff',
+        borderRadius: '8px',
+    },
+    dialogContent: {
+        padding: '20px',
     },
 };
+
+// Styled component for the title with gradient
+const SpicyTitle = styled(Typography)(({ theme }) => ({
+    background: 'linear-gradient(45deg, #FF6B6B, #FFD93D)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    fontSize: '1.8rem',
+    fontWeight: 700,
+    textAlign: 'center',
+    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+}));
 
 interface MovieFilterUIProps {
     onFilterValuesChange: (f: string, s: string) => void;
@@ -34,27 +57,35 @@ interface MovieFilterUIProps {
     genreFilter: string;
 }
 
-
 const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     return (
         <>
             <Fab
-                color="secondary"
+                color="primary"
                 variant="extended"
                 onClick={() => setModalOpen(true)}
                 sx={styles.fab}
             >
+                <MovieFilterIcon sx={{ marginRight: '8px' }} />
                 Filter
             </Fab>
             <Dialog
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
                 aria-labelledby="filter-dialog-title"
+                PaperProps={{
+                    sx: styles.dialog,
+                }}
             >
-                <DialogTitle id="filter-dialog-title">Filter Movies</DialogTitle>
-                <DialogContent>
+                <DialogTitle id="filter-dialog-title">
+                    <SpicyTitle>
+                        <MovieFilterIcon sx={{ marginRight: '8px', verticalAlign: 'middle' }} />
+                        Filter Movies
+                    </SpicyTitle>
+                </DialogTitle>
+                <DialogContent sx={styles.dialogContent}>
                     <FilterCard
                         onUserInput={onFilterValuesChange}
                         titleFilter={titleFilter}

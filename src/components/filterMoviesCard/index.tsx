@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
@@ -9,21 +9,47 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
 import { FilterOption, GenreData } from "../../types/interfaces";
-import { useQuery } from "@tanstack/react-query";
 import Spinner from "../spinner";
 import { getGenres } from "../../api/tmdb-api";
 
 const styles = {
   root: {
-    maxWidth: 345,
+    maxWidth: 400,
+    padding: '16px',
+    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+    borderRadius: '12px',
+    backgroundColor: '#f5f5f5',
   },
-  media: { height: 300 },
-
   formControl: {
-    margin: 1,
-    minWidth: 220,
-    backgroundColor: "rgb(255, 255, 255)",
+    margin: '16px 0',
+    minWidth: 240,
+    borderRadius: '8px',
+    backgroundColor: "white",
+  },
+  inputLabel: {
+    fontSize: '1rem',
+    color: '#555',
+  },
+  textField: {
+    borderRadius: '8px',
+  },
+  icon: {
+    marginRight: '8px',
+    color: '#777',
+  },
+  button: {
+    marginTop: '16px',
+    width: '100%',
+    borderRadius: '10px',
+    background: 'linear-gradient(45deg, #1565c0, #42a5f5)',
+    color: '#ffffff',
+    fontWeight: 700,
+    '&:hover': {
+      background: 'linear-gradient(45deg, #0d47a1, #1e88e5)',
+    },
   },
 };
 
@@ -65,30 +91,45 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
     handleChange(e, "genre", e.target.value);
   };
 
+  const handleReset = () => {
+    onUserInput("title", "");
+    onUserInput("genre", "0");
+  };
+
   return (
-    <>
-      <Card sx={styles.root} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h1">
-            <FilterAltIcon fontSize="large" />
-            Filter the movies.
-          </Typography>
-          <TextField
-            sx={styles.formControl}
-            id="filled-search"
-            label="Search field"
-            type="search"
-            value={titleFilter}
-            variant="filled"
-            onChange={handleTextChange}
-          />
+    <Card sx={styles.root} variant="outlined">
+      <CardContent>
+        <TextField
+          sx={{ ...styles.formControl, ...styles.textField }}
+          id="filled-search"
+          label="Search Movies"
+          type="search"
+          value={titleFilter}
+          variant="outlined"
+          onChange={handleTextChange}
+          InputProps={{
+            startAdornment: (
+              <FilterAltIcon sx={styles.icon} />
+            ),
+          }}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center'
+          }}
+        >
           <FormControl sx={styles.formControl}>
-            <InputLabel id="genre-label">Genre</InputLabel>
+            <InputLabel id="genre-label" sx={styles.inputLabel}>Genre</InputLabel>
             <Select
               labelId="genre-label"
               id="genre-select"
               value={genreFilter}
               onChange={handleGenreChange}
+              startAdornment={<SortIcon sx={styles.icon} />}
             >
               {genres.map((genre: GenreData['genres'][number]) => (
                 <MenuItem key={genre.id} value={genre.id}>
@@ -97,17 +138,16 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
               ))}
             </Select>
           </FormControl>
-        </CardContent>
-      </Card>
-      <Card sx={styles.root} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h1">
-            <SortIcon fontSize="large" />
-            Sort the movies.
-          </Typography>
-        </CardContent>
-      </Card>
-    </>
+          <Button
+            variant="contained"
+            sx={styles.button}
+            onClick={handleReset}
+          >
+            Reset
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
