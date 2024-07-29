@@ -1,24 +1,50 @@
 import React, { useEffect, useState } from "react";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import { MovieDetailsProps } from "../../types/interfaces";
 
 const styles = {
   root: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
-    flexWrap: "wrap",
-    padding: 1.5,
+    padding: "16px",
+    backgroundColor: "#f5f5f5",
+    borderBottom: "1px solid #ddd",
+  },
+  titleContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  titleRow: {
+    display: "flex",
+    alignItems: "center",
+  },
+  title: {
+    fontWeight: 500,
+  },
+  tagline: {
+    fontStyle: "italic",
+    color: "#555",
+    marginTop: "4px",
   },
   avatar: {
-    backgroundColor: "rgb(255, 0, 0)",
+    backgroundColor: "#ff6347",
+    marginRight: "16px",
+  },
+  iconLink: {
+    marginLeft: "8px",
+    textDecoration: "none",
+    color: "#3f51b5",
+    cursor: "pointer",
+    "&:hover": {
+      color: "#1a237e",
+    },
   },
 };
 
@@ -37,28 +63,38 @@ const MovieHeader: React.FC<MovieDetailsProps> = ({ id, title, homepage, tagline
   }, [id]);
 
   return (
-    <Paper component="div" sx={styles.root}>
-      <IconButton aria-label="go back">
-        <ArrowBackIcon color="primary" fontSize="large" />
-      </IconButton>
-      {isFavourite && (
-        <Avatar sx={styles.avatar}>
-          <FavoriteIcon />
-        </Avatar>
-      )}
-      <Typography variant="h4" component="h3">
-        {title}{"   "}
-        {homepage && (
-          <a href={homepage}>
-            <HomeIcon color="primary" fontSize="large" />
-          </a>
+    <Paper component="div" sx={styles.root} elevation={1}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        {isFavourite && (
+          <Avatar sx={styles.avatar}>
+            <FavoriteIcon />
+          </Avatar>
         )}
-        <br />
-        <span>{tagline}</span>
-      </Typography>
-      <IconButton aria-label="go forward">
-        <ArrowForwardIcon color="primary" fontSize="large" />
-      </IconButton>
+        <Box sx={styles.titleContainer} ml={isFavourite ? 2 : 0}>
+          <Box sx={styles.titleRow}>
+            <Typography variant="h5" component="h3" sx={styles.title}>
+              {title}
+            </Typography>
+            {homepage && (
+              <IconButton
+                component="a"
+                href={homepage}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={styles.iconLink}
+                size="large"
+              >
+                <HomeIcon fontSize="large" />
+              </IconButton>
+            )}
+          </Box>
+          {tagline && (
+            <Typography variant="subtitle1" sx={styles.tagline}>
+              {tagline}
+            </Typography>
+          )}
+        </Box>
+      </Box>
     </Paper>
   );
 };

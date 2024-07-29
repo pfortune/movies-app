@@ -7,16 +7,19 @@ import { useQuery } from "@tanstack/react-query";
 import Spinner from "../spinner";
 import { getMovieImages } from "../../api/tmdb-api";
 import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
+import Box from "@mui/material/Box";
 
 const styles = {
-    gridListRoot: {
+    imageListRoot: {
         display: "flex",
+        justifyContent: "center",
         flexWrap: "wrap",
-        justifyContent: "space-around",
+        overflow: "hidden",
     },
-    gridListTile: {
-        width: 450,
-        height: "100vh",
+    imageListItem: {
+        width: 250,
+        height: 150,
+        marginRight: "10px",
     },
 };
 
@@ -39,33 +42,33 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }
         return <h1>{(error as Error).message}</h1>;
     }
 
-    const images = data || [];
+    const images = (data || []).slice(0, 5); // Limit to the first 5 images
+    const imageUrls = images.map((image) => `https://image.tmdb.org/t/p/w500/${image.file_path}`);
 
     return (
         <>
             <MovieHeader {...movie} />
 
             <Grid container spacing={5} style={{ padding: "15px" }}>
-                <Grid item xs={3}>
-                    <div>
-                        <ImageList cols={1}>
-                            {images.map((image: MovieImage) => (
+                <Grid item xs={12}>
+                    <Box sx={styles.imageListRoot}>
+                        <ImageList cols={5}>
+                            {images.map((image, index) => (
                                 <ImageListItem
                                     key={image.file_path}
-                                    sx={styles.gridListTile}
-                                    cols={1}
+                                    sx={styles.imageListItem}
                                 >
                                     <img
-                                        src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                                        src={imageUrls[index]}
                                         alt={"Movie image"}
                                     />
                                 </ImageListItem>
                             ))}
                         </ImageList>
-                    </div>
+                    </Box>
                 </Grid>
 
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                     {children}
                 </Grid>
             </Grid>

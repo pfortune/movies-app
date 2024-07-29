@@ -1,3 +1,5 @@
+import { User } from '@supabase/supabase-js';
+
 export interface BaseMovieProps {
   title: string;
   budget: number;
@@ -81,4 +83,12 @@ export interface Review {
   agree: boolean,
   rating: number,
   movieId: number,
+}
+
+export interface AuthContextInterface {
+  token: string | null;
+  user: User | null;
+  loading: boolean;
+  authenticate: () => Promise<void>;
+  signout: () => Promise<void>;
 }

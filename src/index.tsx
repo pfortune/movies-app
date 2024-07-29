@@ -12,6 +12,8 @@ import UpcomingMoviePage from "./pages/upcomingMoviesPage";
 import MoviesContextProvider from "./contexts/moviesContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
 import Box from "@mui/material/Box";
+import AuthContextProvider from "./contexts/authContextProvider";
+import LoginPage from "./pages/loginPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,29 +34,32 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <SiteHeader setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
-        <MoviesContextProvider>
-          <Box
-            sx={{
-              marginLeft: drawerOpen ? `${drawerWidth + 5}px` : 0,
-              transition: (theme) =>
-                theme.transitions.create('margin', {
-                  easing: theme.transitions.easing.sharp,
-                  duration: theme.transitions.duration.leavingScreen,
-                }),
-            }}
-          >
-            <Routes>
-              <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-              <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-              <Route path="/reviews/:id" element={<MovieReviewPage />} />
-              <Route path="/movies/:id" element={<MoviePage />} />
-              <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
-              <Route path="/" element={<HomePage />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </Box>
-        </MoviesContextProvider>
+        <AuthContextProvider>
+          <SiteHeader setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
+          <MoviesContextProvider>
+            <Box
+              sx={{
+                marginLeft: drawerOpen ? `${drawerWidth + 5}px` : 0,
+                transition: (theme) =>
+                  theme.transitions.create('margin', {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.leavingScreen,
+                  }),
+              }}
+            >
+              <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+                <Route path="/reviews/:id" element={<MovieReviewPage />} />
+                <Route path="/movies/:id" element={<MoviePage />} />
+                <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </Box>
+          </MoviesContextProvider>
+        </AuthContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

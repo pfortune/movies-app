@@ -15,43 +15,72 @@ import Grid from "@mui/material/Grid";
 import img from '../../images/film-poster-placeholder.png';
 import { BaseMovieProps } from "../../types/interfaces";
 import { MoviesContext } from "../../contexts/moviesContext";
-
-const styles = {
-  card: { maxWidth: 345 },
-  media: { height: 500 },
-  avatar: {
-    backgroundColor: "rgb(255, 0, 0)",
-  }
-};
+import { useTheme, Theme } from "@mui/material/styles";
 
 interface MovieCardProps {
   movie: BaseMovieProps;
   action: (m: BaseMovieProps) => React.ReactNode;
 }
 
+const styles = (theme: Theme) => ({
+  card: {
+    maxWidth: 345,
+    boxShadow: theme.shadows[3],
+    transition: "transform 0.3s, box-shadow 0.3s",
+    '&:hover': {
+      transform: "scale(1.05)",
+      boxShadow: theme.shadows[6],
+    },
+    textAlign: 'center',
+  },
+  media: {
+    height: 500,
+    borderRadius: 0,
+  },
+  avatar: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+  title: {
+    fontSize: theme.typography.h6.fontSize,
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+  infoText: {
+    fontSize: theme.typography.body2.fontSize,
+    color: theme.palette.text.secondary,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+});
+
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
   const { favourites } = React.useContext(MoviesContext);
-
+  const theme = useTheme();
   const isFavourite = favourites.includes(movie.id);
 
+  const classes = styles(theme);
+
   return (
-    <Card sx={styles.card}>
+    <Card sx={classes.card}>
       <CardHeader
         avatar={
           isFavourite ? (
-            <Avatar sx={styles.avatar}>
+            <Avatar sx={classes.avatar}>
               <FavoriteIcon />
             </Avatar>
           ) : null
         }
         title={
-          <Typography variant="h5" component="p">
-            {movie.title}{" "}
+          <Typography variant="h6" component="p" sx={classes.title}>
+            {movie.title}
           </Typography>
         }
       />
       <CardMedia
-        sx={styles.media}
+        sx={classes.media}
         image={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
@@ -59,31 +88,31 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
         }
       />
       <CardContent>
-        <Grid container>
+        <Grid container spacing={1}>
           <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
+            <Typography variant="body2" component="p" sx={classes.infoText}>
+              <CalendarIcon fontSize="small" style={{ marginRight: '4px' }} />
               {movie.release_date}
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
+            <Typography variant="body2" component="p" sx={classes.infoText}>
+              <StarRateIcon fontSize="small" style={{ marginRight: '4px' }} />
+              {movie.vote_average}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing style={{ justifyContent: 'center' }}> {/* Center the buttons */}
         {action(movie)}
-        <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
+        <Link to={`/movies/${movie.id}`} style={{ textDecoration: "none" }}>
+          <Button variant="contained" size="small" color="primary" sx={classes.button}>
+            More Info
           </Button>
         </Link>
       </CardActions>
     </Card>
   );
-}
+};
 
 export default MovieCard;

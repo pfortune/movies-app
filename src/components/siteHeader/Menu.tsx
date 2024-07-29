@@ -11,7 +11,7 @@ import TvIcon from "@mui/icons-material/Tv";
 import PersonIcon from "@mui/icons-material/Person";
 import InfoIcon from "@mui/icons-material/Info";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../../hooks/useAuth";
 interface MenuProps {
     handleDrawerToggle: () => void;
     isMobile: boolean;
@@ -19,6 +19,7 @@ interface MenuProps {
 
 const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
     const navigate = useNavigate();
+    const { user, signout } = useAuth();
 
     const [openSections, setOpenSections] = useState({
         movies: false,
@@ -56,9 +57,13 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
             ], open: openSections.tvShows
         },
         {
-            label: "Account", icon: <PersonIcon />, onClick: () => handleToggleSection('account'), children: [
-                { label: "Sign Up", path: "/account/signup" },
-                { label: "Login", path: "/account/login" },
+            label: "Account", icon: <PersonIcon />, onClick: () => handleToggleSection('account'), children: user ? [
+                { label: "Fantasy Movie", path: "/fantasy-movie" },
+                { label: "View Playlist", path: "/playlist" },
+                { label: "View Favourites", path: "/movies/favourites" },
+                { label: "Logout", path: "/", action: signout },
+            ] : [
+                { label: "Login", path: "/login" },
             ], open: openSections.account
         },
         { label: "About", path: "/about", icon: <InfoIcon /> }
@@ -83,7 +88,13 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
                                 {opt.children.map((child) => (
                                     <ListItem
                                         key={child.label}
-                                        onClick={() => handleMenuSelect(child.path)}
+                                        onClick={() => {
+                                            if (child.action) {
+                                                child.action();
+                                            } else {
+                                                handleMenuSelect(child.path);
+                                            }
+                                        }}
                                         sx={{ cursor: 'pointer', pl: 6 }}
                                     >
                                         <ListItemText primary={child.label} />

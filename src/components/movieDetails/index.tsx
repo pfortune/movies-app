@@ -9,77 +9,93 @@ import { MovieDetailsProps } from "../../types/interfaces";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import MovieReviews from '../movieReviews'
-
-const styles = {
-    chipSet: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexWrap: "wrap",
-        listStyle: "none",
-        padding: 1.5,
-        margin: 0,
-    },
-    chipLabel: {
-        margin: 0.5,
-    },
-    fab: {
-        position: "fixed",
-        top: 50,
-        right: 2,
-    },
-};
+import MovieReviews from "../movieReviews";
+import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 
 const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
+    const theme = useTheme();
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
-    const [drawerOpen, setDrawerOpen] = useState(false); // New
+    const styles = {
+        chipSet: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexWrap: "wrap",
+            listStyle: "none",
+            padding: theme.spacing(2),
+            margin: theme.spacing(1, 0),
+        },
+        chipLabel: {
+            margin: theme.spacing(0.5),
+        },
+        fab: {
+            position: "fixed",
+            top: theme.spacing(8),
+            right: theme.spacing(2),
+            zIndex: theme.zIndex.drawer + 1,
+            transition: "transform 0.3s",
+            "&:hover": {
+                transform: "scale(1.1)",
+            },
+        },
+        drawer: {
+            padding: theme.spacing(2),
+        },
+    };
 
     return (
         <>
-            <Typography variant="h5" component="h3">
+            <Typography variant="h4" component="h2" gutterBottom>
+                {movie.title}
+            </Typography>
+
+            <Typography variant="h5" component="h3" gutterBottom>
                 Overview
             </Typography>
 
-            <Typography variant="h6" component="p">
+            <Typography variant="body1" component="p" gutterBottom>
                 {movie.overview}
             </Typography>
 
             <Paper component="ul" sx={styles.chipSet}>
-                <li>
-                    <Chip label="Genres" sx={styles.chipLabel} color="primary" />
-                </li>
+                {movie.genres.length > 0 && (
+                    <li>
+                        <Chip label="Genres" sx={styles.chipLabel} color="primary" />
+                    </li>
+                )}
                 {movie.genres.map((g) => (
                     <li key={g.name}>
-                        <Chip label={g.name} />
+                        <Chip label={g.name} sx={styles.chipLabel} color="secondary" />
                     </li>
                 ))}
             </Paper>
+
             <Paper component="ul" sx={styles.chipSet}>
-                <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-                <Chip
-                    icon={<MonetizationIcon />}
-                    label={`${movie.revenue.toLocaleString()}`}
-                />
-                <Chip
-                    icon={<StarRate />}
-                    label={`${movie.vote_average} (${movie.vote_count}`}
-                />
-                <Chip label={`Released: ${movie.release_date}`} />
+                <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} sx={styles.chipLabel} />
+                <Chip icon={<MonetizationIcon />} label={`${movie.revenue.toLocaleString()}`} sx={styles.chipLabel} />
+                <Chip icon={<StarRate />} label={`${movie.vote_average} (${movie.vote_count})`} sx={styles.chipLabel} />
+                <Chip label={`Released: ${movie.release_date}`} sx={styles.chipLabel} />
             </Paper>
+
             <Fab
                 color="secondary"
                 variant="extended"
                 onClick={() => setDrawerOpen(true)}
                 sx={styles.fab}
             >
-                <NavigationIcon />
+                <NavigationIcon sx={{ marginRight: theme.spacing(1) }} />
                 Reviews
             </Fab>
+
             <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-                <MovieReviews {...movie} />
+                <Box sx={styles.drawer}>
+                    <MovieReviews {...movie} />
+                </Box>
             </Drawer>
         </>
     );
 };
+
 export default MovieDetails;
