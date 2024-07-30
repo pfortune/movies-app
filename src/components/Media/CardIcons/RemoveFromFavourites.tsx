@@ -1,20 +1,20 @@
 import React, { MouseEvent, useContext } from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { MoviesContext } from "../../contexts/moviesContext";
-import { BaseMovieProps } from "../../types/interfaces";
+import { MoviesContext } from "../../../contexts/moviesContext";
+import { BaseMovieProps } from "../../../types/interfaces";
 
-const RemoveFromPlaylistIcon: React.FC<BaseMovieProps> = ({ id, title, ...props }) => {
+const RemoveFromFavouritesIcon: React.FC<{ movie: BaseMovieProps }> = ({ movie }) => {
     const context = useContext(MoviesContext);
 
     const onUserRequest = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        context.removeFromPlaylist({ id, title, ...props });
+        context.removeFromFavourites(movie);
     };
 
     return (
         <IconButton
-            aria-label="remove from must watch"
+            aria-label="remove from favorites"
             onClick={onUserRequest}
         >
             <DeleteIcon color="primary" fontSize="large" />
@@ -22,4 +22,4 @@ const RemoveFromPlaylistIcon: React.FC<BaseMovieProps> = ({ id, title, ...props 
     );
 };
 
-export default RemoveFromPlaylistIcon;
+export default RemoveFromFavouritesIcon;

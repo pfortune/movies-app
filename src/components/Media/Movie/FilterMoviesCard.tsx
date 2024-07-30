@@ -11,9 +11,9 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
-import { FilterOption, GenreData } from "../../types/interfaces";
-import Spinner from "../spinner";
-import { getGenres } from "../../api/tmdb-api";
+import { FilterOption, GenreData } from "../../../types/interfaces";
+import Spinner from "../../UI/Spinner";
+import { getGenres } from "../../../api/tmdb-api";
 
 const styles = {
   root: {

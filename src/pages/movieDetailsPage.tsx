@@ -2,9 +2,9 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { getMovie } from "../api/tmdb-api";
 import { useQuery } from "@tanstack/react-query";
-import Spinner from "../components/spinner";
-import MovieDetails from "../components/movieDetails";
-import PageTemplate from "../components/templateMoviePage";
+import Spinner from "../components/UI/Spinner";
+import MovieDetails from "../components/Media/Movie/MovieDetails";
+import PageTemplate from "../components/Templates/TemplateMoviePage";
 import { MovieDetailsProps } from "../types/interfaces";
 
 const MovieDetailsPage: React.FC = () => {

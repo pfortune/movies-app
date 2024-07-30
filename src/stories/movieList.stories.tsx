@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react';
-import MovieList from "../components/movieList";
+import MovieList from "../components/Media/Movie/MovieList";
 import SampleMovie from "./sampleData";
 import { StaticRouter } from "react-router-dom/server";
-import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
+import AddToFavouritesIcon from "../components/Media/CardIcons/AddToFavourites";
 import Grid from "@mui/material/Grid";
 import MoviesContextProvider from "../contexts/moviesContext";
 

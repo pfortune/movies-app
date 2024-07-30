@@ -1,10 +1,10 @@
 import React from "react";
-import MovieHeader from "../headerMovie";
+import MovieHeader from "../Header/Movie/HeaderMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useQuery } from "@tanstack/react-query";
-import Spinner from "../spinner";
+import Spinner from "../UI/Spinner";
 import { getMovieImages } from "../../api/tmdb-api";
 import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
 import Box from "@mui/material/Box";

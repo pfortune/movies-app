@@ -1,10 +1,10 @@
 import React from "react";
-import PageTemplate from "../components/templateMoviePage";
-import ReviewForm from "../components/reviewForm";
+import PageTemplate from "../components/Templates/TemplateMoviePage";
+import ReviewForm from "../components/ReviewForm/ReviewForm";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getMovie } from "../api/tmdb-api";
-import Spinner from "../components/spinner";
+import Spinner from "../components/UI/Spinner";
 import { MovieDetailsProps } from "../types/interfaces";
 
 interface LocationState {

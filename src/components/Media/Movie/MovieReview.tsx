@@ -1,5 +1,5 @@
 import React from "react";
-import { Review } from "../../types/interfaces";
+import { Review } from "../../../types/interfaces";
 
 const MovieReview: React.FC<Review> = (props) => {
     return (

@@ -1,7 +1,7 @@
 import React from "react";
-import Movie from "../movieCard/";
+import Movie from "./MovieCard";
 import Grid from "@mui/material/Grid";
-import { BaseMovieListProps } from "../../types/interfaces";
+import { BaseMovieListProps } from "../../../types/interfaces";
 
 const MovieList: React.FC<BaseMovieListProps> = ({ movies, action }) => {
   let movieCards = movies.map((m) => (

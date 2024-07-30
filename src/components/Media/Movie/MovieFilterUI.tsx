@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import FilterCard from "../filterMoviesCard";
+import FilterCard from "./FilterMoviesCard";
 import Fab from "@mui/material/Fab";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import { BaseMovieProps } from "../../types/interfaces";
+import { BaseMovieProps } from "../../../types/interfaces";
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";

@@ -10,7 +10,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles";
-import ratings from "./ratingCategories";
+import ratings from "./RatingCategories";
 import { BaseMovieProps, Review } from "../../types/interfaces";
 
 interface ReviewFormProps {

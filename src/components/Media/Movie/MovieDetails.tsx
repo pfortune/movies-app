@@ -5,11 +5,11 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
-import { MovieDetailsProps } from "../../types/interfaces";
+import { MovieDetailsProps } from "../../../types/interfaces";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import MovieReviews from "../movieReviews";
+import MovieReviews from "./MovieReviews";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
