@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import MovieHeader from "../components/Header/Movie/HeaderMovie";
+import MovieHeader from "../components/Header/Movie/MovieHeader";
 import SampleMovie from "./sampleData";
 import { MemoryRouter } from "react-router";
 

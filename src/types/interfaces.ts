@@ -1,17 +1,24 @@
 import { User } from '@supabase/supabase-js';
 
-export interface BaseMovieProps {
+// Base interface for common media properties
+export interface BaseMediaProps {
+  id: number;
+  name: string;
+  title: string;
+  poster_path: string | null;
+  overview: string;
+}
+
+// Movie-specific interfaces
+export interface BaseMovieProps extends BaseMediaProps {
   title: string;
   budget: number;
   homepage?: string;
-  id: number;
   imdb_id: string;
   original_language: string;
-  overview: string;
   release_date: string;
   vote_average: number;
   popularity: number;
-  poster_path?: string;
   tagline: string;
   runtime: number;
   revenue: number;
@@ -55,19 +62,45 @@ export interface MovieListPageTemplateProps extends BaseMovieListProps {
   title: string;
 }
 
-export interface Review {
-  id: string;
-  content: string
-  author: string
+// TV Show-specific interfaces
+export interface BaseTVShowProps extends BaseMediaProps {
+  first_air_date: string;
+  genre_ids: number[];
+  popularity: number;
+  vote_average: number;
+  vote_count: number;
 }
 
+export interface BaseTVShowListProps {
+  tvShows: BaseTVShowProps[];
+  action: (tvShow: BaseTVShowProps) => React.ReactNode;
+}
+
+export interface TVShowListPageTemplateProps {
+  tvShows: BaseTVShowProps[];
+  title: string;
+  action: (tvShow: BaseTVShowProps) => React.ReactNode;
+}
+
+// Review-related interfaces
+export interface Review {
+  id: string;
+  content: string;
+  author: string;
+  agree: boolean;
+  rating: number;
+  movieId: number;
+}
+
+// Genre data interface
 export interface GenreData {
   genres: {
     id: string;
-    name: string
+    name: string;
   }[];
 }
 
+// Discover movies result
 export interface DiscoverMovies {
   page: number;
   total_pages: number;
@@ -75,16 +108,10 @@ export interface DiscoverMovies {
   results: BaseMovieProps[];
 }
 
+// Filter options
 export type FilterOption = "title" | "genre";
 
-export interface Review {
-  author: string,
-  content: string,
-  agree: boolean,
-  rating: number,
-  movieId: number,
-}
-
+// Auth context interface
 export interface AuthContextInterface {
   token: string | null;
   user: User | null;

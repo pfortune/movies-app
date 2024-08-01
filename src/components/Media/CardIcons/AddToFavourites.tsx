@@ -1,5 +1,5 @@
 import React, { MouseEvent, useContext } from "react";
-import { MoviesContext } from "../../../contexts/moviesContext";
+import { MoviesContext } from "../../../contexts/mediaContext";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { BaseMovieProps } from "../../../types/interfaces";

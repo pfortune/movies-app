@@ -1,15 +1,15 @@
 import React, { MouseEvent, useContext } from "react";
-import { MoviesContext } from "../../../contexts/moviesContext";
+import { MediaContext } from "../../../contexts/mediaContext";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import { BaseMovieProps } from "../../../types/interfaces"
+import { BaseMediaProps } from "../../../types/interfaces";
 
-const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
-    const context = useContext(MoviesContext);
+const AddToPlaylistIcon: React.FC<BaseMediaProps> = (media) => {
+    const context = useContext(MediaContext);
 
     const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        context.addToPlaylist(movie);
+        context.addToPlaylist(media);
     };
     return (
         <IconButton aria-label="add to playlist" onClick={onUserSelect}>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PageTemplate from "../components/Templates/TemplateMovieListPage";
-import { MoviesContext } from "../contexts/moviesContext";
+import { MoviesContext } from "../contexts/mediaContext";
 import { useQueries } from "@tanstack/react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/UI/Spinner";

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import MovieListHeader from "../components/Header/Movie/HeaderMovieList";
+import MovieListHeader from "../components/Header/Movie/MovieListHeader";
 import { MemoryRouter } from "react-router";
-import MoviesContextProvider from "../contexts/moviesContext";
+import MoviesContextProvider from "../contexts/mediaContext";
 
 const meta = {
   title: 'Home Page/Header',

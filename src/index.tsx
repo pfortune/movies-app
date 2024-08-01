@@ -9,8 +9,9 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import SiteHeader from './components/Layout/SiteHeader';
 import UpcomingMoviePage from "./pages/upcomingMoviesPage";
-import MoviesContextProvider from "./contexts/moviesContext";
+import MoviesContextProvider from "./contexts/mediaContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
+import PopularTVShowsPage from "./pages/popularTVShowsPage";
 import Box from "@mui/material/Box";
 import AuthContextProvider from "./contexts/authContextProvider";
 import LoginPage from "./pages/loginPage";
@@ -49,6 +50,7 @@ const App = () => {
             >
               <Routes>
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/tv/popular" element={<PopularTVShowsPage />} />
                 <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
                 <Route path="/reviews/form" element={<AddMovieReviewPage />} />
                 <Route path="/reviews/:id" element={<MovieReviewPage />} />

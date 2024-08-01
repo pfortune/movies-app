@@ -1,5 +1,5 @@
 import React from "react";
-import MovieHeader from "../Header/Movie/HeaderMovie";
+import MovieHeader from "../Header/Movie/MovieHeader";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";

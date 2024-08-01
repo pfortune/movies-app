@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Header/Movie/HeaderMovieList";
+import Header from "../Header/Movie/MovieListHeader";
 import Grid from "@mui/material/Grid";
 import MovieList from "../Media/Movie/MovieList";
 import { MovieListPageTemplateProps } from "../../types/interfaces";

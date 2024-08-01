@@ -16,6 +16,7 @@ const fetchData = async (url: string) => {
   }
 };
 
+// Movie-related API functions
 export const getMovies = async () => {
   const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&include_adult=false&include_video=false&page=1`;
   return fetchData(url);
@@ -46,6 +47,13 @@ export const getMovieReviews = async (id: string | number) => {
 
 export const getUpcomingMovies = async () => {
   const url = `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&include_adult=false&page=1`;
+  const data = await fetchData(url);
+  return data.results;
+};
+
+// TV-related API functions
+export const getPopularTVShows = async () => {
+  const url = `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=1`;
   const data = await fetchData(url);
   return data.results;
 };

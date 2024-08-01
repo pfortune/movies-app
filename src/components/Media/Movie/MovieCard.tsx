@@ -14,7 +14,7 @@ import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import img from "../../../images/film-poster-placeholder.png";
 import { BaseMovieProps } from "../../../types/interfaces";
-import { MoviesContext } from "../../../contexts/moviesContext";
+import { MoviesContext } from "../../../contexts/mediaContext";
 import { useTheme, Theme } from "@mui/material/styles";
 
 interface MovieCardProps {
