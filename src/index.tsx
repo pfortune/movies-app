@@ -9,7 +9,7 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import SiteHeader from './components/Layout/SiteHeader';
 import UpcomingMoviePage from "./pages/upcomingMoviesPage";
-import MoviesContextProvider from "./contexts/mediaContext";
+import MediaContextProvider from "./contexts/mediaContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
 import PopularTVShowsPage from "./pages/popularTVShowsPage";
 import Box from "@mui/material/Box";
@@ -37,7 +37,7 @@ const App = () => {
       <BrowserRouter>
         <AuthContextProvider>
           <SiteHeader setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
-          <MoviesContextProvider>
+          <MediaContextProvider>
             <Box
               sx={{
                 marginLeft: drawerOpen ? `${drawerWidth + 5}px` : 0,
@@ -60,7 +60,7 @@ const App = () => {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </Box>
-          </MoviesContextProvider>
+          </MediaContextProvider>
         </AuthContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />

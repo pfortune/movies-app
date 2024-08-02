@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PageTemplate from "../components/Templates/TemplateMovieListPage";
-import { MoviesContext } from "../contexts/mediaContext";
+import { MediaContext } from "../contexts/mediaContext";
 import { useQueries } from "@tanstack/react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/UI/Spinner";
@@ -24,7 +24,7 @@ const genreFiltering = {
 };
 
 const FavouriteMoviesPage: React.FC = () => {
-    const { favourites: movieIds } = useContext(MoviesContext);
+    const { favourites: movieIds } = useContext(MediaContext);
     const { filterValues, setFilterValues, filterFunction } = useFiltering(
         [titleFiltering, genreFiltering]
     );

@@ -14,7 +14,7 @@ import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import img from "../../../images/film-poster-placeholder.png";
 import { BaseMovieProps } from "../../../types/interfaces";
-import { MoviesContext } from "../../../contexts/mediaContext";
+import { MediaContext } from "../../../contexts/mediaContext";
 import { useTheme, Theme } from "@mui/material/styles";
 
 interface MovieCardProps {
@@ -57,7 +57,7 @@ const styles = (theme: Theme) => ({
 });
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
-  const { favourites } = React.useContext(MoviesContext);
+  const { favourites } = React.useContext(MediaContext);
   const theme = useTheme();
   const isFavourite = favourites.includes(movie.id);
 

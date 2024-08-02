@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import MovieListHeader from "../components/Header/Movie/MovieListHeader";
 import { MemoryRouter } from "react-router";
-import MoviesContextProvider from "../contexts/mediaContext";
+import MediaContextProvider from "../contexts/mediaContext";
 
 const meta = {
   title: 'Home Page/Header',
   component: MovieListHeader,
   decorators: [
     (Story) => <MemoryRouter initialEntries={["/"]}>{Story()}</MemoryRouter>,
-    (Story) => <MoviesContextProvider>{Story()}</MoviesContextProvider>,
+    (Story) => <MediaContextProvider>{Story()}</MediaContextProvider>,
   ],
 } satisfies Meta<typeof MovieListHeader>;
 

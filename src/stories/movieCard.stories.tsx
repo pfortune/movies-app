@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import MovieCard from "../components/Media/Movie/MovieCard";
 import SampleMovie from "./sampleData";
 import { StaticRouter } from "react-router-dom/server";
-import MoviesContextProvider from "../contexts/mediaContext";
+import MediaContextProvider from "../contexts/mediaContext";
 import AddToFavouritesIcon from "../components/Media/CardIcons/AddToFavourites";
 
 const meta = {
@@ -11,9 +11,9 @@ const meta = {
   decorators: [
     (Story) => (
       <StaticRouter location="/">
-        <MoviesContextProvider>
+        <MediaContextProvider>
           {Story()}
-        </MoviesContextProvider>
+        </MediaContextProvider>
       </StaticRouter>
     ),
   ],

@@ -4,7 +4,7 @@ import SampleMovie from "./sampleData";
 import { StaticRouter } from "react-router-dom/server";
 import AddToFavouritesIcon from "../components/Media/CardIcons/AddToFavourites";
 import Grid from "@mui/material/Grid";
-import MoviesContextProvider from "../contexts/mediaContext";
+import MediaContextProvider from "../contexts/mediaContext";
 
 const meta = {
   title: "Home Page/MovieList",
@@ -12,9 +12,9 @@ const meta = {
   decorators: [
     (Story) => (
       <StaticRouter location="/">
-        <MoviesContextProvider>
+        <MediaContextProvider>
           {Story()}
-        </MoviesContextProvider>
+        </MediaContextProvider>
       </StaticRouter>
     ),
   ],
