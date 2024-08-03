@@ -15,11 +15,11 @@ const styles = {
     },
 };
 
-interface HeaderProps {
+interface MediaListHeaderProps {
     title: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
+const MediaListHeader: React.FC<MediaListHeaderProps> = ({ title }) => {
     return (
         <Paper component="div" sx={styles.root}>
             <IconButton aria-label="go back">
@@ -37,4 +37,4 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
     );
 };
 
-export default Header;
+export default MediaListHeader;

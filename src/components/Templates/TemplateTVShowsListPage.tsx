@@ -1,7 +1,7 @@
 import React from "react";
-import TVShowListHeader from "../Header/TVShow/TVShowListHeader";
 import Grid from "@mui/material/Grid";
 import TVShowList from "../Media/TVShow/TVShowList";
+import MediaListHeader from "../Header/MediaListHeader";
 import { TVShowListPageTemplateProps } from "../../types/interfaces";
 
 const styles = {
@@ -14,7 +14,7 @@ const TVShowListPageTemplate: React.FC<TVShowListPageTemplateProps> = ({ tvShows
     return (
         <Grid container sx={styles.root}>
             <Grid item xs={12}>
-                <TVShowListHeader title={title} />
+                <MediaListHeader title={title} />
             </Grid>
             <Grid item container spacing={1}>
                 <TVShowList

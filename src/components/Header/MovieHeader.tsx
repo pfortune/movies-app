@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import { MovieDetailsProps } from "../../../types/interfaces";
+import { MovieDetailsProps } from "../../types/interfaces";
 
 const styles = {
   root: {

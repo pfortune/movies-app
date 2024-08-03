@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../Header/Movie/MovieListHeader";
 import Grid from "@mui/material/Grid";
+import MediaListHeader from "../Header/MediaListHeader";
 import MovieList from "../Media/Movie/MovieList";
 import { MovieListPageTemplateProps } from "../../types/interfaces";
 
@@ -14,7 +14,7 @@ const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, t
     return (
         <Grid container sx={styles.root}>
             <Grid item xs={12}>
-                <Header title={title} />
+                <MediaListHeader title={title} />
             </Grid>
             <Grid item container spacing={1}>
                 <MovieList
