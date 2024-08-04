@@ -46,7 +46,6 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
                 { label: "Popular", path: "/movies/popular" },
                 { label: "Now Playing", path: "/movies/now-playing" },
                 { label: "Upcoming", path: "/movies/upcoming" },
-                { label: "Trailers", path: "/movies/trailers" },
             ], open: openSections.movies
         },
         {
@@ -65,8 +64,7 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
             ] : [
                 { label: "Login", path: "/login" },
             ], open: openSections.account
-        },
-        { label: "About", path: "/about", icon: <InfoIcon /> }
+        }
     ];
 
     return (

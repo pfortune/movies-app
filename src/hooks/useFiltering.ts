@@ -8,20 +8,25 @@ interface Filter {
 
 const useFiltering = (filters: Filter[]) => {
     const [filterValues, setFilterValues] = useState(() => {
-        const filterInitialValues = filters.map((f) => ({
+        return filters.map((f) => ({
             name: f.name,
             value: f.value,
         }));
-        return filterInitialValues;
     });
 
     const filteringConditions = filters.map((f) => f.condition);
-    const filterFunction = (collection: any) =>
-        filteringConditions.reduce((data, conditionFn, index) => {
-            return data.filter((item: any) => {
+
+    const filterFunction = (collection: any) => {
+        if (!Array.isArray(collection)) {
+            return [];
+        }
+
+        return filteringConditions.reduce((filteredData, conditionFn, index) => {
+            return filteredData.filter((item: any) => {
                 return conditionFn(item, filterValues[index].value);
             });
         }, collection);
+    };
 
     return {
         filterValues,

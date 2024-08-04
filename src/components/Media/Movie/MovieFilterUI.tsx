@@ -6,8 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import { BaseMovieProps } from "../../../types/interfaces";
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
-import { styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
+import SpicyTitle from "../../Layout/SpicyTitle";
 
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
     return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
@@ -40,24 +39,15 @@ const styles = {
     },
 };
 
-// Styled component for the title with gradient
-const SpicyTitle = styled(Typography)(({ theme }) => ({
-    background: 'linear-gradient(45deg, #FF6B6B, #FFD93D)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    fontSize: '1.8rem',
-    fontWeight: 700,
-    textAlign: 'center',
-    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
-}));
-
 interface MovieFilterUIProps {
     onFilterValuesChange: (f: string, s: string) => void;
     titleFilter: string;
     genreFilter: string;
+    startYearFilter: string;
+    endYearFilter: string;
 }
 
-const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
+const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, startYearFilter, endYearFilter }) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     return (
@@ -90,6 +80,8 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, tit
                         onUserInput={onFilterValuesChange}
                         titleFilter={titleFilter}
                         genreFilter={genreFilter}
+                        startYearFilter={startYearFilter}
+                        endYearFilter={endYearFilter}
                     />
                 </DialogContent>
             </Dialog>

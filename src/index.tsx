@@ -15,6 +15,7 @@ import PopularTVShowsPage from "./pages/popularTVShowsPage";
 import Box from "@mui/material/Box";
 import AuthContextProvider from "./contexts/authContextProvider";
 import LoginPage from "./pages/loginPage";
+import PrivateRoute from "./components/Layout/ProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,7 +52,10 @@ const App = () => {
               <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/tv/popular" element={<PopularTVShowsPage />} />
-                <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+                <Route
+                  path="/movies/favourites"
+                  element={<PrivateRoute element={<FavouriteMoviesPage />} />} // Use PrivateRoute here
+                />
                 <Route path="/reviews/form" element={<AddMovieReviewPage />} />
                 <Route path="/reviews/:id" element={<MovieReviewPage />} />
                 <Route path="/movies/:id" element={<MoviePage />} />

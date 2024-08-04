@@ -109,7 +109,24 @@ export interface DiscoverMovies {
 }
 
 // Filter options
-export type FilterOption = "title" | "genre";
+export type FilterOption = "title" | "genre" | "voteAverageGte" | "voteAverageLte" | "language" | "startYear" | "endYear";
+
+// Movie filters
+export interface MovieFilters {
+  title?: string;
+  genre?: string;
+  startYear?: string;
+  endYear?: string;
+  language?: string;
+  voteAverageGte?: number;
+  voteAverageLte?: number;
+}
+
+export interface GetMoviesOptions {
+  filters?: MovieFilters;
+  sortBy?: string;
+  page?: number;
+}
 
 // Auth context interface
 export interface AuthContextInterface {

@@ -1,14 +1,13 @@
-import React, { ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import { FilterOption, GenreData } from "../../../types/interfaces";
@@ -55,15 +54,32 @@ const styles = {
 
 interface FilterMoviesCardProps {
   onUserInput: (f: FilterOption, s: string) => void;
-  titleFilter: string;
   genreFilter: string;
+  startYearFilter: string;
+  endYearFilter: string;
 }
 
-const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
+const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
+  genreFilter,
+  startYearFilter,
+  endYearFilter,
+  onUserInput
+}) => {
+  const [localGenreFilter, setLocalGenreFilter] = useState(genreFilter);
+  const [localStartYearFilter, setLocalStartYearFilter] = useState(startYearFilter);
+  const [localEndYearFilter, setLocalEndYearFilter] = useState(endYearFilter);
+
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ["genres"],
     queryFn: getGenres,
   });
+
+  useEffect(() => {
+    console.log("Current filter values:");
+    console.log("Genre Filter:", localGenreFilter);
+    console.log("Start Year Filter:", localStartYearFilter);
+    console.log("End Year Filter:", localEndYearFilter);
+  }, [localGenreFilter, localStartYearFilter, localEndYearFilter]);
 
   if (isLoading) {
     return <Spinner />;
@@ -78,41 +94,25 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
     genres.unshift({ id: "0", name: "All" });
   }
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent, type: FilterOption, value: string) => {
-    e.preventDefault();
-    onUserInput(type, value);
-  };
-
-  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChange(e, "title", e.target.value);
-  };
-
-  const handleGenreChange = (e: SelectChangeEvent) => {
-    handleChange(e, "genre", e.target.value);
+  const handleApplyFilters = () => {
+    onUserInput("genre", localGenreFilter);
+    onUserInput("startYear", localStartYearFilter);
+    onUserInput("endYear", localEndYearFilter);
   };
 
   const handleReset = () => {
-    onUserInput("title", "");
+    setLocalGenreFilter("0");
+    setLocalStartYearFilter("");
+    setLocalEndYearFilter("");
+
     onUserInput("genre", "0");
+    onUserInput("startYear", "");
+    onUserInput("endYear", "");
   };
 
   return (
     <Card sx={styles.root} variant="outlined">
       <CardContent>
-        <TextField
-          sx={{ ...styles.formControl, ...styles.textField }}
-          id="filled-search"
-          label="Search Movies"
-          type="search"
-          value={titleFilter}
-          variant="outlined"
-          onChange={handleTextChange}
-          InputProps={{
-            startAdornment: (
-              <FilterAltIcon sx={styles.icon} />
-            ),
-          }}
-        />
         <Box
           sx={{
             display: 'flex',
@@ -122,13 +122,35 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             textAlign: 'center'
           }}
         >
+          {/* Start Year Filter */}
+          <TextField
+            sx={{ ...styles.formControl, ...styles.textField }}
+            id="start-year"
+            label="Start Year"
+            type="number"
+            value={localStartYearFilter}
+            variant="outlined"
+            onChange={(e) => setLocalStartYearFilter(e.target.value)}
+          />
+
+          {/* End Year Filter */}
+          <TextField
+            sx={{ ...styles.formControl, ...styles.textField }}
+            id="end-year"
+            label="End Year"
+            type="number"
+            value={localEndYearFilter}
+            variant="outlined"
+            onChange={(e) => setLocalEndYearFilter(e.target.value)}
+          />
+
           <FormControl sx={styles.formControl}>
             <InputLabel id="genre-label" sx={styles.inputLabel}>Genre</InputLabel>
             <Select
               labelId="genre-label"
               id="genre-select"
-              value={genreFilter}
-              onChange={handleGenreChange}
+              value={localGenreFilter}
+              onChange={(e) => setLocalGenreFilter(e.target.value)}
               startAdornment={<SortIcon sx={styles.icon} />}
             >
               {genres.map((genre: GenreData['genres'][number]) => (
@@ -138,9 +160,18 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
               ))}
             </Select>
           </FormControl>
+
           <Button
             variant="contained"
             sx={styles.button}
+            onClick={handleApplyFilters}
+          >
+            Apply Filters
+          </Button>
+
+          <Button
+            variant="contained"
+            sx={{ ...styles.button, marginTop: '8px', backgroundColor: '#ffffff' }}
             onClick={handleReset}
           >
             Reset
