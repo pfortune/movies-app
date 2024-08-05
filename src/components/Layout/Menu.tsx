@@ -12,6 +12,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import InfoIcon from "@mui/icons-material/Info";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+
 interface MenuProps {
     handleDrawerToggle: () => void;
     isMobile: boolean;
@@ -55,17 +56,18 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
                 { label: "Airing Today", path: "/tv/airing-today" },
             ], open: openSections.tvShows
         },
-        {
-            label: "Account", icon: <PersonIcon />, onClick: () => handleToggleSection('account'), children: user ? [
+        user ? {
+            label: "Account", icon: <PersonIcon />, onClick: () => handleToggleSection('account'), children: [
                 { label: "Fantasy Movie", path: "/fantasy-movie" },
                 { label: "View Playlist", path: "/playlist" },
                 { label: "View Favourites", path: "/movies/favourites" },
                 { label: "Logout", path: "/", action: signout },
-            ] : [
-                { label: "Login", path: "/login" },
             ], open: openSections.account
+        } : {
+            label: "Login", path: "/login", icon: <PersonIcon />
         }
     ];
+
 
     return (
         <List>
