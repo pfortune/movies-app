@@ -18,6 +18,10 @@ import LoginPage from "./pages/loginPage";
 import PrivateRoute from "./components/Layout/ProtectedRoute";
 import PlaylistPage from "./pages/playlistPage";
 import FantasyMoviePage from "./pages/fantasyMoviePage";
+import PopularMoviesPage from "./pages/popularMoviesPage";
+import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage";
+import AiringTodayTVShowsPage from "./pages/airingTodayTVShowsPage";
+import TopRatedTVShowsPage from "./pages/topRatedTVShowsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,11 +61,14 @@ const App = () => {
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />
 
-                <Route path="/movies/popular" element={<PopularTVShowsPage />} />
+                <Route path="/movies/popular" element={<PopularMoviesPage />} />
                 <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
+                <Route path="/movies/now-playing" element={<NowPlayingMoviesPage />} />
                 <Route path="/movies/:id" element={<MoviePage />} />
 
                 <Route path="/tv/popular" element={<PopularTVShowsPage />} />
+                <Route path="/tv/top-rated" element={<TopRatedTVShowsPage />} />
+                <Route path="/tv/airing-today" element={<AiringTodayTVShowsPage />} />
 
                 {/* Protected Routes */}
                 <Route
