@@ -16,6 +16,8 @@ import Box from "@mui/material/Box";
 import AuthContextProvider from "./contexts/authContextProvider";
 import LoginPage from "./pages/loginPage";
 import PrivateRoute from "./components/Layout/ProtectedRoute";
+import PlaylistPage from "./pages/playlistPage";
+import FantasyMoviePage from "./pages/fantasyMoviePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,18 +53,38 @@ const App = () => {
             >
               <Routes>
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/tv/popular" element={<PopularTVShowsPage />} />
+
+                {/* Public Routes */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/movies/popular" element={<PopularTVShowsPage />} />
+                <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
+                <Route path="/movies/:id" element={<MoviePage />} />
+
+                {/* Protected Routes */}
                 <Route
                   path="/movies/favourites"
-                  element={<PrivateRoute element={<FavouriteMoviesPage />} />} // Use PrivateRoute here
+                  element={<PrivateRoute element={<FavouriteMoviesPage />} />}
                 />
-                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-                <Route path="/reviews/:id" element={<MovieReviewPage />} />
-                <Route path="/movies/:id" element={<MoviePage />} />
-                <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
-                <Route path="/" element={<HomePage />} />
+                <Route
+                  path="/reviews/form"
+                  element={<PrivateRoute element={<AddMovieReviewPage />} />}
+                />
+                <Route
+                  path="/reviews/:id"
+                  element={<PrivateRoute element={<MovieReviewPage />} />}
+                />
+                <Route
+                  path="/playlist"
+                  element={<PrivateRoute element={<PlaylistPage />} />}
+                />
+                <Route
+                  path="/fantasy-movie"
+                  element={<PrivateRoute element={<FantasyMoviePage />} />}
+                />
+
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
+
             </Box>
           </MediaContextProvider>
         </AuthContextProvider>
