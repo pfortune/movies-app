@@ -56,9 +56,12 @@ const App = () => {
 
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />
+
                 <Route path="/movies/popular" element={<PopularTVShowsPage />} />
                 <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
                 <Route path="/movies/:id" element={<MoviePage />} />
+
+                <Route path="/tv/popular" element={<PopularTVShowsPage />} />
 
                 {/* Protected Routes */}
                 <Route
