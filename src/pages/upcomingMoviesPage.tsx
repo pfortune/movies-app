@@ -7,7 +7,7 @@ import AddToPlaylistIcon from '../components/Media/CardIcons/AddToPlaylist';
 import MovieFilterUI, {
     titleFilter,
     genreFilter,
-} from "../components/Media/Movie/MovieFilterUI";
+} from "../components/Media/Movie/MovieSearchUI";
 import { DiscoverMovies } from '../types/interfaces';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/UI/Spinner';

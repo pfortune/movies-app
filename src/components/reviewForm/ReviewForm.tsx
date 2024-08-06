@@ -23,7 +23,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ movie }) => {
         content: "",
         agree: false,
         rating: 3,
-        movieId: 0,
+        movieId: movie.id,
     };
 
     const {
@@ -35,7 +35,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ movie }) => {
 
     const navigate = useNavigate();
     const context = useContext(MediaContext);
-    const [rating, setRating] = useState(3);
+    const [rating, setRating] = useState(defaultValues.rating);
     const [open, setOpen] = useState(false);
 
     const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -163,6 +163,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ movie }) => {
                             reset({
                                 author: "",
                                 content: "",
+                                rating: 3,
                             });
                         }}
                     >

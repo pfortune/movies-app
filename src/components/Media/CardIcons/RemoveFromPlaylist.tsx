@@ -4,12 +4,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { MediaContext } from "../../../contexts/mediaContext";
 import { BaseMovieProps } from "../../../types/interfaces";
 
-const RemoveFromPlaylistIcon: React.FC<BaseMovieProps> = ({ id, title, ...props }) => {
+const RemoveFromPlaylistIcon: React.FC<{ movie: BaseMovieProps }> = ({ movie }) => {
     const context = useContext(MediaContext);
 
     const onUserRequest = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        context.removeFromPlaylist({ id, title, ...props });
+        context.removeFromPlaylist(movie);
     };
 
     return (
