@@ -1,6 +1,6 @@
 import React from "react";
 import PageTemplate from "../components/Templates/TemplateMoviePage";
-import ReviewForm from "../components/ReviewForm/ReviewForm";
+import ReviewForm from "../components/Forms/ReviewForm";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getMovie } from "../api/tmdb-api";

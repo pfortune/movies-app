@@ -9,16 +9,32 @@ const supabase = createClient(
     import.meta.env.VITE_SUPABASE_KEY
 );
 
+interface FantasyMovieFormData {
+    title: string;
+    description: string;
+    genreId: string;
+    genreName: string;
+    releaseDate: string;
+    runtime: number | string;
+    director: string;
+    cast: string[];
+    oscarWinner: boolean;
+    poster: string | null;
+    productionCompany: string;
+}
+
 interface MediaContextInterface {
     favourites: number[];
     addToFavourites: (media: BaseMediaProps) => void;
     removeFromFavourites: (media: BaseMediaProps) => void;
     addReview: (media: BaseMediaProps, review: Review) => void;
-    getReview: (mediaId: number) => Review | undefined;
+    getReview: (mediaId: number) => Promise<Review | null>;
     reviews: { [key: number]: Review };
     playlist: number[];
     addToPlaylist: (media: BaseMediaProps) => void;
     removeFromPlaylist: (media: BaseMediaProps) => void;
+    saveFantasyMovie: (movie: FantasyMovieFormData) => Promise<void>;
+    getFantasyMovies: () => Promise<FantasyMovieFormData[]>;
 }
 
 const initialContextState: MediaContextInterface = {
@@ -31,6 +47,8 @@ const initialContextState: MediaContextInterface = {
     getReview: () => undefined,
     addToPlaylist: () => { },
     removeFromPlaylist: () => { },
+    saveFantasyMovie: async () => { },
+    getFantasyMovies: async () => [],
 };
 
 export const MediaContext = React.createContext<MediaContextInterface>(initialContextState);
@@ -135,7 +153,6 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         }
     }, [user]);
 
-
     // Add to playlist and sync with Supabase
     const addToPlaylist = useCallback(async (media: BaseMediaProps) => {
         if (!user) return;
@@ -162,7 +179,6 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         }
     }, [user]);
 
-
     // Remove from playlist and sync with Supabase
     const removeFromPlaylist = useCallback(async (media: BaseMediaProps) => {
         if (!user) return;
@@ -188,7 +204,6 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
             setPlaylist((prevPlaylist) => [...prevPlaylist, media.id]);
         }
     }, [user]);
-
 
     // Add review to Supabase
     const addReview = useCallback(async (media: BaseMediaProps, review: Review) => {
@@ -268,6 +283,62 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         return review;
     }, [reviews, user]);
 
+    // Save a fantasy movie to Supabase
+    const saveFantasyMovie = useCallback(async (movie: FantasyMovieFormData) => {
+        if (!user) {
+            alert("You need to be logged in to save your movie.");
+            return;
+        }
+
+        try {
+            const { error } = await supabase.from("fantasy_movies").insert({
+                user_id: user.id,
+                title: movie.title,
+                description: movie.description,
+                genre_id: movie.genreId,
+                genre_name: movie.genreName,
+                release_date: movie.releaseDate,
+                runtime: movie.runtime,
+                director: movie.director,
+                cast_members: movie.cast,
+                oscar_winner: movie.oscarWinner,
+                poster: movie.poster,
+                production_company: movie.productionCompany,
+            });
+
+            if (error) {
+                console.error("Error saving movie:", error.message);
+                alert("There was an error saving your movie.");
+            } else {
+                alert("Fantasy movie saved successfully!");
+            }
+        } catch (err) {
+            console.error("Error in saveFantasyMovie:", err);
+            alert("There was an error saving your movie.");
+        }
+    }, [user]);
+
+    // Fetch all fantasy movies for the logged-in user
+    const getFantasyMovies = useCallback(async () => {
+        if (!user) return [];
+
+        try {
+            const { data, error } = await supabase
+                .from("fantasy_movies")
+                .select("*")
+                .eq("user_id", user.id);
+
+            if (error) {
+                console.error("Error fetching fantasy movies:", error.message);
+                return [];
+            }
+
+            return data || [];
+        } catch (err) {
+            console.error("Error in getFantasyMovies:", err);
+            return [];
+        }
+    }, [user]);
 
     return (
         <MediaContext.Provider
@@ -281,6 +352,8 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
                 getReview,
                 addToPlaylist,
                 removeFromPlaylist,
+                saveFantasyMovie, // Add this
+                getFantasyMovies, // And this
             }}
         >
             {children}
