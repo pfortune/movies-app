@@ -19,6 +19,7 @@ interface FantasyMovieFormData {
     director: string;
     cast: string[];
     oscarWinner: boolean;
+    posterFile: File | null;
     poster: string | null;
     productionCompany: string;
 }
@@ -44,7 +45,7 @@ const initialContextState: MediaContextInterface = {
     addToFavourites: () => { },
     removeFromFavourites: () => { },
     addReview: () => { },
-    getReview: () => undefined,
+    getReview: async () => Promise.resolve(null),
     addToPlaylist: () => { },
     removeFromPlaylist: () => { },
     saveFantasyMovie: async () => { },
@@ -243,7 +244,12 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     }, [user, setReviews]);
 
     // Get review from Supabase
-    const getReview = useCallback(async (mediaId: number) => {
+    const getReview = useCallback(async (mediaId: number): Promise<Review | null> => {
+        if (!user) {
+            // If the user is not logged in, return null wrapped in a resolved Promise
+            return Promise.resolve(null);
+        }
+
         let review = reviews[mediaId];
 
         if (!review) {
@@ -280,7 +286,7 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
             }
         }
 
-        return review;
+        return review || null;
     }, [reviews, user]);
 
     // Save a fantasy movie to Supabase
@@ -290,6 +296,31 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
             return;
         }
 
+        let posterUrl = movie.poster;
+
+        // Upload the poster if a file was selected
+        if (movie.posterFile) {
+            const fileName = `${Date.now()}_${movie.posterFile.name}`;
+            const { data: uploadData, error: uploadError } = await supabase.storage
+                .from("fantasy-movie-posters")
+                .upload(fileName, movie.posterFile);
+
+            if (uploadError) {
+                console.error("Error uploading image:", uploadError.message);
+                alert("There was an error uploading the movie poster.");
+                return;
+            }
+
+            if (uploadData) {
+                const { data: publicUrlData } = supabase.storage
+                    .from("fantasy-movie-posters")
+                    .getPublicUrl(fileName);
+
+                posterUrl = publicUrlData.publicUrl;
+            }
+        }
+
+        // Save the movie data with the uploaded poster URL
         try {
             const { error } = await supabase.from("fantasy_movies").insert({
                 user_id: user.id,
@@ -302,7 +333,7 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
                 director: movie.director,
                 cast_members: movie.cast,
                 oscar_winner: movie.oscarWinner,
-                poster: movie.poster,
+                poster: posterUrl, // Use the URL or null
                 production_company: movie.productionCompany,
             });
 
@@ -317,6 +348,7 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
             alert("There was an error saving your movie.");
         }
     }, [user]);
+
 
     // Fetch all fantasy movies for the logged-in user
     const getFantasyMovies = useCallback(async () => {

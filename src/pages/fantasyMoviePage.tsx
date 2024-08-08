@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Grid, Button, Box } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import FantasyMovieForm, { FantasyMovieFormData } from "../components/Forms/FantasyMovieForm";
 import FantasyMovieDetails from "../components/Media/Movie/FantasyMovieDetails";
 import { MediaContext } from "../contexts/mediaContext";
 
 const FantasyMoviePage: React.FC = () => {
+    const { saveFantasyMovie } = useContext(MediaContext);
+
     const [formData, setFormData] = useState<FantasyMovieFormData>({
         title: "",
         description: "",
@@ -15,11 +17,10 @@ const FantasyMoviePage: React.FC = () => {
         director: "",
         cast: [],
         oscarWinner: false,
+        posterFile: null,
         poster: null,
         productionCompany: "",
     });
-
-    const { saveFantasyMovie } = useContext(MediaContext);
 
     const handleFormChange = (field: keyof FantasyMovieFormData, value: any) => {
         setFormData((prevData) => ({
@@ -28,39 +29,20 @@ const FantasyMoviePage: React.FC = () => {
         }));
     };
 
-    const handleSaveMovie = async () => {
-        try {
-            await saveFantasyMovie(formData);
-            alert("Fantasy movie saved successfully!");
-        } catch (error) {
-            console.error("Error saving fantasy movie:", error);
-            alert("Failed to save fantasy movie.");
-        }
+    const handleSave = () => {
+        saveFantasyMovie(formData);
     };
 
     return (
         <Grid container spacing={4}>
-            {/* Form Column */}
             <Grid item xs={12} md={6}>
                 <FantasyMovieForm formData={formData} onChange={handleFormChange} />
+                <Button variant="contained" color="primary" onClick={handleSave} sx={{ mt: 2 }}>
+                    Save Fantasy Movie
+                </Button>
             </Grid>
-
-            {/* Preview Column */}
             <Grid item xs={12} md={6}>
                 <FantasyMovieDetails movie={formData} />
-            </Grid>
-
-            {/* Save Button */}
-            <Grid item xs={12}>
-                <Box display="flex" justifyContent="center" mt={4}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSaveMovie}
-                    >
-                        Save Fantasy Movie
-                    </Button>
-                </Box>
             </Grid>
         </Grid>
     );

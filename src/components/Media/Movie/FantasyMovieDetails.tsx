@@ -19,7 +19,7 @@ const FantasyMovieDetails: React.FC<{ movie: FantasyMovieFormData }> = ({ movie 
                 <CardMedia
                     component="img"
                     height="450"
-                    image={movie.poster || placeholderImg}
+                    image={movie.posterFile || placeholderImg}
                     alt={`${movie.title} poster`}
                     onError={(e) => (e.currentTarget.src = placeholderImg)}
                 />

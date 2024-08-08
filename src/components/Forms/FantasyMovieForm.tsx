@@ -29,6 +29,7 @@ export interface FantasyMovieFormData {
     cast: string[];
     oscarWinner: boolean;
     posterFile: File | null;
+    poster: string | null;
     productionCompany: string;
 }
 
