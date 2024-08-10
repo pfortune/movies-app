@@ -1,4 +1,4 @@
-import React, { useState, useEffect, KeyboardEvent, ChangeEvent } from "react";
+import React, { useState, useEffect, KeyboardEvent } from "react";
 import {
     TextField,
     Box,
@@ -28,17 +28,18 @@ export interface FantasyMovieFormData {
     director: string;
     cast: string[];
     oscarWinner: boolean;
-    posterFile: File | null;
     poster: string | null;
+    posterFile: File | null;
     productionCompany: string;
 }
 
 interface FantasyMovieFormProps {
     formData: FantasyMovieFormData;
     onChange: (field: keyof FantasyMovieFormData, value: any) => void;
+    errors?: { [key in keyof FantasyMovieFormData]?: string };
 }
 
-const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange }) => {
+const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange, errors = {} }) => {
     const [inputValue, setInputValue] = useState("");
 
     const { data: genres, error, isLoading, isError } = useQuery({
@@ -78,6 +79,15 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
         );
     };
 
+    const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        if (file) {
+            const previewUrl = URL.createObjectURL(file);
+            onChange("posterFile", file);
+            onChange("poster", previewUrl);
+        }
+    };
+
     if (isLoading) {
         return <Spinner />;
     }
@@ -101,11 +111,6 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
         }
     };
 
-    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        onChange("posterFile", file);
-    };
-
     return (
         <Box component="form" sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -118,6 +123,8 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                 fullWidth
                 required
                 margin="normal"
+                error={!!errors.title}
+                helperText={errors.title}
             />
             <TextField
                 label="Description"
@@ -128,8 +135,10 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                 margin="normal"
                 multiline
                 rows={4}
+                error={!!errors.description}
+                helperText={errors.description}
             />
-            <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal" error={!!errors.genreId}>
                 <InputLabel id="genre-label">Genre</InputLabel>
                 <Select
                     labelId="genre-label"
@@ -143,6 +152,9 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                         </MenuItem>
                     ))}
                 </Select>
+                <Typography variant="caption" color="error">
+                    {errors.genreId}
+                </Typography>
             </FormControl>
             <TextField
                 label="Release Date"
@@ -155,6 +167,8 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                 InputLabelProps={{
                     shrink: true,
                 }}
+                error={!!errors.releaseDate}
+                helperText={errors.releaseDate}
             />
             <TextField
                 label="Runtime (minutes)"
@@ -164,6 +178,8 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                 fullWidth
                 required
                 margin="normal"
+                error={!!errors.runtime}
+                helperText={errors.runtime}
             />
             <TextField
                 label="Director"
@@ -172,6 +188,8 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                 fullWidth
                 required
                 margin="normal"
+                error={!!errors.director}
+                helperText={errors.director}
             />
 
             <TextField
@@ -209,19 +227,14 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                     variant="contained"
                     component="label"
                 >
-                    Choose Poster
+                    Upload Poster
                     <input
                         type="file"
                         hidden
                         accept="image/*"
-                        onChange={handleImageChange}
+                        onChange={handlePosterChange}
                     />
                 </Button>
-                {formData.posterFile && (
-                    <Typography variant="body2" mt={2}>
-                        {formData.posterFile.name}
-                    </Typography>
-                )}
             </Box>
             <TextField
                 label="Production Company"
@@ -230,6 +243,8 @@ const FantasyMovieForm: React.FC<FantasyMovieFormProps> = ({ formData, onChange 
                 fullWidth
                 required
                 margin="normal"
+                error={!!errors.productionCompany}
+                helperText={errors.productionCompany}
             />
             <FormControlLabel
                 control={
