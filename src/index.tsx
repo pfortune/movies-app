@@ -22,6 +22,8 @@ import PopularMoviesPage from "./pages/popularMoviesPage";
 import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage";
 import AiringTodayTVShowsPage from "./pages/airingTodayTVShowsPage";
 import TopRatedTVShowsPage from "./pages/topRatedTVShowsPage";
+import FantasyMovieDetailPage from "./pages/fantasyMovieDetailsPage";
+import FantasyMovieListPage from "./pages/fantasyMovieListPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -91,9 +93,18 @@ const App = () => {
                   path="/fantasy-movie"
                   element={<PrivateRoute element={<FantasyMoviePage />} />}
                 />
+                <Route
+                  path="/fantasy-movie/:id"
+                  element={<PrivateRoute element={<FantasyMovieDetailPage />} />}
+                />
+                <Route
+                  path="/fantasy-movies/"
+                  element={<PrivateRoute element={<FantasyMovieListPage />} />}
+                />
 
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
+
 
             </Box>
           </MediaContextProvider>

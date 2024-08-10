@@ -34,8 +34,9 @@ interface MediaContextInterface {
     playlist: number[];
     addToPlaylist: (media: BaseMediaProps) => void;
     removeFromPlaylist: (media: BaseMediaProps) => void;
-    saveFantasyMovie: (movie: FantasyMovieFormData) => Promise<void>;
+    saveFantasyMovie: (movie: FantasyMovieFormData) => Promise<number | null>;
     getFantasyMovies: () => Promise<FantasyMovieFormData[]>;
+    getFantasyMovieById: (id: number) => Promise<FantasyMovieFormData | null>;
 }
 
 const initialContextState: MediaContextInterface = {
@@ -48,8 +49,9 @@ const initialContextState: MediaContextInterface = {
     getReview: async () => Promise.resolve(null),
     addToPlaylist: () => { },
     removeFromPlaylist: () => { },
-    saveFantasyMovie: async () => { },
+    saveFantasyMovie: async () => Promise.resolve(null),
     getFantasyMovies: async () => [],
+    getFantasyMovieById: async () => null,
 };
 
 export const MediaContext = React.createContext<MediaContextInterface>(initialContextState);
@@ -290,39 +292,43 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     }, [reviews, user]);
 
     // Save a fantasy movie to Supabase
-    const saveFantasyMovie = useCallback(async (movie: FantasyMovieFormData) => {
+    const saveFantasyMovie = useCallback(async (movie: FantasyMovieFormData): Promise<number | null> => {
         if (!user) {
-            alert("You need to be logged in to save your movie.");
-            return;
+            return null;  // Return null if the user is not logged in.
         }
 
-        let posterUrl = movie.poster;
+        try {
+            let posterUrl = movie.poster;
 
-        // Upload the poster if a file was selected
-        if (movie.posterFile) {
-            const fileName = `${Date.now()}_${movie.posterFile.name}`;
-            const { data: uploadData, error: uploadError } = await supabase.storage
-                .from("fantasy-movie-posters")
-                .upload(fileName, movie.posterFile);
+            // If the poster is a blob URL, attempt to upload the image.
+            if (posterUrl && posterUrl.startsWith("blob:")) {
+                const blob = await (await fetch(posterUrl)).blob();
+                const fileName = `${Date.now()}_${user.id}.png`;
 
-            if (uploadError) {
-                console.error("Error uploading image:", uploadError.message);
-                alert("There was an error uploading the movie poster.");
-                return;
-            }
+                const { error: uploadError } = await supabase.storage
+                    .from("fantasy-movie-posters")
+                    .upload(fileName, blob, {
+                        contentType: blob.type,
+                    });
 
-            if (uploadData) {
+                if (uploadError) {
+                    console.error("Error uploading image:", uploadError.message);
+                    return null;
+                }
+
                 const { data: publicUrlData } = supabase.storage
                     .from("fantasy-movie-posters")
                     .getPublicUrl(fileName);
 
-                posterUrl = publicUrlData.publicUrl;
-            }
-        }
+                if (!publicUrlData?.publicUrl) {
+                    console.error("Error: Public URL not generated.");
+                    return null;
+                }
 
-        // Save the movie data with the uploaded poster URL
-        try {
-            const { error } = await supabase.from("fantasy_movies").insert({
+                posterUrl = publicUrlData.publicUrl;  // Update the poster URL to the public URL.
+            }
+
+            const { data, error } = await supabase.from("fantasy_movies").insert({
                 user_id: user.id,
                 title: movie.title,
                 description: movie.description,
@@ -333,22 +339,21 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
                 director: movie.director,
                 cast_members: movie.cast,
                 oscar_winner: movie.oscarWinner,
-                poster: posterUrl, // Use the URL or null
+                poster: posterUrl,
                 production_company: movie.productionCompany,
-            });
+            }).select("id").single();
 
             if (error) {
                 console.error("Error saving movie:", error.message);
-                alert("There was an error saving your movie.");
+                return null;
             } else {
-                alert("Fantasy movie saved successfully!");
+                return data.id;
             }
         } catch (err) {
             console.error("Error in saveFantasyMovie:", err);
-            alert("There was an error saving your movie.");
+            return null;
         }
     }, [user]);
-
 
     // Fetch all fantasy movies for the logged-in user
     const getFantasyMovies = useCallback(async () => {
@@ -372,6 +377,29 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         }
     }, [user]);
 
+    // Fetch a single fantasy movie by ID
+    const getFantasyMovieById = useCallback(async (id: number): Promise<FantasyMovieFormData | null> => {
+        if (!user) return null;
+
+        try {
+            const { data, error } = await supabase
+                .from("fantasy_movies")
+                .select("*")
+                .eq("id", id)
+                .single();
+
+            if (error) {
+                console.error("Error fetching fantasy movie:", error.message);
+                return null;
+            }
+
+            return data;
+        } catch (err) {
+            console.error("Error in getFantasyMovieById:", err);
+            return null;
+        }
+    }, [user]);
+
     return (
         <MediaContext.Provider
             value={{
@@ -384,8 +412,9 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
                 getReview,
                 addToPlaylist,
                 removeFromPlaylist,
-                saveFantasyMovie, // Add this
-                getFantasyMovies, // And this
+                saveFantasyMovie,
+                getFantasyMovies,
+                getFantasyMovieById,
             }}
         >
             {children}
