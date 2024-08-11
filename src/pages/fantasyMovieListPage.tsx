@@ -3,13 +3,11 @@ import { Grid, Typography, Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { MediaContext } from "../contexts/mediaContext";
 import FantasyMovieCard from "../components/Media/FantasyMovie/FantasyMovieCard";
-import { useNavigate } from "react-router-dom";
 import Spinner from "../components/UI/Spinner";
 import FantasyMovieHeader from "../components/Header/FantasyMovieHeader";
 import { FantasyMovieFormData } from "../components/Forms/FantasyMovieForm";
 
 const FantasyMovieListPage: React.FC = () => {
-    const navigate = useNavigate();
     const { getFantasyMovies } = React.useContext(MediaContext);
 
     // Using React Query's useQuery hook to fetch fantasy movies

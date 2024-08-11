@@ -3,6 +3,7 @@ import { Grid, Snackbar, Alert, Typography, Button } from "@mui/material";
 import FantasyMovieForm, { FantasyMovieFormData } from "../components/Forms/FantasyMovieForm";
 import FantasyMovieDetails from "../components/Media/FantasyMovie/FantasyMovieDetails"; // Updated import
 import { MediaContext } from "../contexts/mediaContext";
+import { useQueryClient } from "@tanstack/react-query";
 import Spinner from "../components/UI/Spinner";
 import FantasyMovieHeader from "../components/Header/FantasyMovieHeader";
 import { useNavigate } from 'react-router-dom';
@@ -22,6 +23,8 @@ const FantasyMoviePage: React.FC = () => {
         posterFile: null,
         productionCompany: "",
     });
+
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         console.log("FORM DATA >>: ", formData);
@@ -73,6 +76,8 @@ const FantasyMoviePage: React.FC = () => {
         setLoading(false);
 
         if (movieId) {
+            queryClient.invalidateQueries("fantasyMovies");
+
             setOpenSnackbar(true);
             setTimeout(() => {
                 navigate(`/fantasy-movie/${movieId}`);
@@ -110,7 +115,7 @@ const FantasyMoviePage: React.FC = () => {
                 <FantasyMovieDetails
                     movie={formData}
                     maxWidth={800}
-                    cardMediaHeight="900px"
+                    cardMediaHeight="600px"
                     layout="stacked"
                 />
             </Grid>
