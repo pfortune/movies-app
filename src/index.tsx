@@ -11,7 +11,6 @@ import SiteHeader from './components/Layout/SiteHeader';
 import UpcomingMoviePage from "./pages/upcomingMoviesPage";
 import MediaContextProvider from "./contexts/mediaContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
-import PopularTVShowsPage from "./pages/popularTVShowsPage";
 import Box from "@mui/material/Box";
 import AuthContextProvider from "./contexts/authContextProvider";
 import LoginPage from "./pages/loginPage";
@@ -20,8 +19,6 @@ import PlaylistPage from "./pages/playlistPage";
 import FantasyMoviePage from "./pages/fantasyMoviePage";
 import PopularMoviesPage from "./pages/popularMoviesPage";
 import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage";
-import AiringTodayTVShowsPage from "./pages/airingTodayTVShowsPage";
-import TopRatedTVShowsPage from "./pages/topRatedTVShowsPage";
 import FantasyMovieDetailPage from "./pages/fantasyMovieDetailsPage";
 import FantasyMovieListPage from "./pages/fantasyMovieListPage";
 
@@ -67,10 +64,6 @@ const App = () => {
                 <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
                 <Route path="/movies/now-playing" element={<NowPlayingMoviesPage />} />
                 <Route path="/movies/:id" element={<MoviePage />} />
-
-                <Route path="/tv/popular" element={<PopularTVShowsPage />} />
-                <Route path="/tv/top-rated" element={<TopRatedTVShowsPage />} />
-                <Route path="/tv/airing-today" element={<AiringTodayTVShowsPage />} />
 
                 {/* Protected Routes */}
                 <Route

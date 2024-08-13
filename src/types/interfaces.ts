@@ -62,26 +62,6 @@ export interface MovieListPageTemplateProps extends BaseMovieListProps {
   title: string;
 }
 
-// TV Show-specific interfaces
-export interface BaseTVShowProps extends BaseMediaProps {
-  first_air_date: string;
-  genre_ids: number[];
-  popularity: number;
-  vote_average: number;
-  vote_count: number;
-}
-
-export interface BaseTVShowListProps {
-  tvShows: BaseTVShowProps[];
-  action: (tvShow: BaseTVShowProps) => React.ReactNode;
-}
-
-export interface TVShowListPageTemplateProps {
-  tvShows: BaseTVShowProps[];
-  title: string;
-  action: (tvShow: BaseTVShowProps) => React.ReactNode;
-}
-
 // Review-related interfaces
 export interface Review {
   id: string;

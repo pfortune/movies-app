@@ -7,9 +7,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import HomeIcon from "@mui/icons-material/Home";
 import MovieIcon from "@mui/icons-material/Movie";
-import TvIcon from "@mui/icons-material/Tv";
 import PersonIcon from "@mui/icons-material/Person";
-import InfoIcon from "@mui/icons-material/Info";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -24,7 +22,6 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
 
     const [openSections, setOpenSections] = useState({
         movies: false,
-        tvShows: false,
         account: false,
     });
 
@@ -48,13 +45,6 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
                 { label: "Now Playing", path: "/movies/now-playing" },
                 { label: "Upcoming", path: "/movies/upcoming" },
             ], open: openSections.movies
-        },
-        {
-            label: "TV Shows", icon: <TvIcon />, onClick: () => handleToggleSection('tvShows'), children: [
-                { label: "Popular", path: "/tv/popular" },
-                { label: "Top Rated", path: "/tv/top-rated" },
-                { label: "Airing Today", path: "/tv/airing-today" },
-            ], open: openSections.tvShows
         },
         user ? {
             label: "Account", icon: <PersonIcon />, onClick: () => handleToggleSection('account'), children: [

@@ -103,11 +103,3 @@ export const getUpcomingMovies = async ({ filters }: { filters: any }) => {
   console.log("Final API URL:", url);  // Debugging
   return fetchData(url);
 };
-
-
-// TV-related API functions
-export const getPopularTVShows = async () => {
-  const url = `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=1`;
-  const data = await fetchData(url);
-  return data.results;
-};
