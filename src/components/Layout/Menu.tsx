@@ -34,12 +34,20 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
         { label: "Popular Movies", path: "/movies/popular", icon: <StarIcon /> },
         { label: "Now Playing", path: "/movies/now-playing", icon: <MovieIcon /> },
         { label: "Upcoming Movies", path: "/movies/upcoming", icon: <EventIcon /> },
-        "divider",  // Divider marker
+        "divider",
         ...(user ? [
             { label: "Fantasy Movie", path: "/fantasy-movie", icon: <MovieCreationIcon /> },
             { label: "View Playlist", path: "/playlist", icon: <PlaylistPlayIcon /> },
             { label: "View Favourites", path: "/movies/favourites", icon: <FavoriteIcon /> },
-            { label: "Logout", path: "/", icon: <ExitToAppIcon />, action: signout }
+            {
+                label: "Logout",
+                path: "/",
+                icon: <ExitToAppIcon />,
+                onClick: () => {
+                    signout();
+                    if (isMobile) handleDrawerToggle();
+                }
+            }
         ] : [
             { label: "Login", path: "/login", icon: <PersonIcon /> }
         ])
