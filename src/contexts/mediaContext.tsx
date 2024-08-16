@@ -30,6 +30,7 @@ interface MediaContextInterface {
     removeFromFavourites: (media: BaseMediaProps) => void;
     addReview: (media: BaseMediaProps, review: Review) => void;
     getReview: (mediaId: number) => Promise<Review | null>;
+    getAllReviewsForMovie: (mediaId: number) => Promise<Review[]>;
     reviews: { [key: number]: Review };
     playlist: number[];
     addToPlaylist: (media: BaseMediaProps) => void;
@@ -47,6 +48,7 @@ const initialContextState: MediaContextInterface = {
     removeFromFavourites: () => { },
     addReview: () => { },
     getReview: async () => Promise.resolve(null),
+    getAllReviewsForMovie: async () => [],
     addToPlaylist: () => { },
     removeFromPlaylist: () => { },
     saveFantasyMovie: async () => Promise.resolve(null),
@@ -245,7 +247,7 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         }
     }, [user, setReviews]);
 
-    // Get review from Supabase
+    // Get a review from Supabase
     const getReview = useCallback(async (mediaId: number): Promise<Review | null> => {
         if (!user) {
             // If the user is not logged in, return null wrapped in a resolved Promise
@@ -290,6 +292,27 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
 
         return review || null;
     }, [reviews, user]);
+
+    // Get all reviews for a movie from Supabase
+    const getAllReviewsForMovie = useCallback(async (movieId: number): Promise<Review[]> => {
+        try {
+            const { data, error } = await supabase
+                .from("reviews")
+                .select("*")
+                .eq("media_id", movieId);
+
+            if (error) {
+                console.error("Error fetching reviews:", error.message);
+                return [];
+            }
+
+            return data || [];
+        } catch (err) {
+            console.error("Error in getAllReviewsForMovie:", err);
+            return [];
+        }
+    }, []);
+
 
     // Save a fantasy movie to Supabase
     const saveFantasyMovie = useCallback(async (movie: FantasyMovieFormData): Promise<number | null> => {
@@ -410,6 +433,7 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
                 removeFromFavourites,
                 addReview,
                 getReview,
+                getAllReviewsForMovie,
                 addToPlaylist,
                 removeFromPlaylist,
                 saveFantasyMovie,

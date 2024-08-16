@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import HomeIcon from "@mui/icons-material/Home";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import LanguageIcon from "@mui/icons-material/Language";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import { MovieDetailsProps } from "../../types/interfaces";
+import { MediaContext } from "../../contexts/mediaContext";
 
 const styles = {
   root: {
@@ -49,18 +51,13 @@ const styles = {
 };
 
 const MovieHeader: React.FC<MovieDetailsProps> = ({ id, title, homepage, tagline }) => {
+  const { favourites } = useContext(MediaContext);
   const [isFavourite, setIsFavourite] = useState(false);
 
   useEffect(() => {
-    try {
-      const favourites: MovieDetailsProps[] = JSON.parse(localStorage.getItem('favourites') || '[]');
-      const isFav = favourites.some(fav => fav.id === id);
-      setIsFavourite(isFav);
-    } catch (error) {
-      console.error("Error reading favourites from localStorage:", error);
-      setIsFavourite(false);
-    }
-  }, [id]);
+    const isFav = favourites.includes(id);
+    setIsFavourite(isFav);
+  }, [id, favourites]);
 
   return (
     <Paper component="div" sx={styles.root} elevation={1}>
@@ -76,16 +73,18 @@ const MovieHeader: React.FC<MovieDetailsProps> = ({ id, title, homepage, tagline
               {title}
             </Typography>
             {homepage && (
-              <IconButton
-                component="a"
-                href={homepage}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={styles.iconLink}
-                size="large"
-              >
-                <HomeIcon fontSize="large" />
-              </IconButton>
+              <Tooltip title="Visit official website">
+                <IconButton
+                  component="a"
+                  href={homepage}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={styles.iconLink}
+                  size="large"
+                >
+                  <LanguageIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
             )}
           </Box>
           {tagline && (

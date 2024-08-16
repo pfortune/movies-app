@@ -1,6 +1,4 @@
 import React, { useContext, useState, ChangeEvent } from "react";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -36,22 +34,16 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ movie }) => {
     const navigate = useNavigate();
     const context = useContext(MediaContext);
     const [rating, setRating] = useState(defaultValues.rating);
-    const [open, setOpen] = useState(false);
 
     const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
         setRating(Number(event.target.value));
-    };
-
-    const handleSnackClose = () => {
-        setOpen(false);
-        navigate("/movies/favourites");
     };
 
     const onSubmit: SubmitHandler<Review> = (review) => {
         review.movieId = movie.id;
         review.rating = rating;
         context.addReview(movie, review);
-        setOpen(true);
+        navigate(`/movies/${movie.id}`);
     };
 
     return (
@@ -59,22 +51,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ movie }) => {
             <Typography component="h2" variant="h3">
                 Write a review
             </Typography>
-            <Snackbar
-                sx={styles.snack}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                open={open}
-                onClose={handleSnackClose}
-            >
-                <Alert
-                    severity="success"
-                    variant="filled"
-                    onClose={handleSnackClose}
-                >
-                    <Typography variant="h4">
-                        Thank you for submitting a review
-                    </Typography>
-                </Alert>
-            </Snackbar>
             <form style={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Controller
                     name="author"
