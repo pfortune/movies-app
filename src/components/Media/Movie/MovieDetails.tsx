@@ -45,6 +45,11 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
         },
     };
 
+    // Toggle drawer open or closed
+    const toggleDrawer = () => {
+        setDrawerOpen((prev) => !prev);
+    };
+
     return (
         <>
             <Typography variant="h4" component="h2" gutterBottom>
@@ -82,14 +87,14 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
             <Fab
                 color="secondary"
                 variant="extended"
-                onClick={() => setDrawerOpen(true)}
+                onClick={toggleDrawer}
                 sx={styles.fab}
             >
                 <NavigationIcon sx={{ marginRight: theme.spacing(1) }} />
                 Reviews
             </Fab>
 
-            <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+            <Drawer anchor="top" open={drawerOpen} onClose={toggleDrawer}>
                 <Box sx={styles.drawer}>
                     <MovieReviews {...movie} />
                 </Box>
