@@ -8,7 +8,7 @@ import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
     titleFilter,
     genreFilter,
-} from "../components/Media/Movie/MovieSearchUI";
+} from "../components/Media/Movie/MovieFilterUI";
 import RemoveFromFavourites from "../components/Media/CardIcons/RemoveFromFavourites";
 import WriteReview from "../components/Media/CardIcons/WriteReview";
 

@@ -76,7 +76,7 @@ const FantasyMoviePage: React.FC = () => {
         setLoading(false);
 
         if (movieId) {
-            queryClient.invalidateQueries("fantasyMovies");
+            queryClient.invalidateQueries({ queryKey: ["fantasyMovies"] });
 
             setOpenSnackbar(true);
             setTimeout(() => {
@@ -86,6 +86,7 @@ const FantasyMoviePage: React.FC = () => {
             console.error("Movie saving failed");
         }
     };
+
 
     const handleSnackbarClose = () => {
         setOpenSnackbar(false);

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import PageTemplate from '../components/Templates/TemplateMovieListPage';
 import { BaseMovieProps } from "../types/interfaces";
 import { getUpcomingMovies } from "../api/tmdb-api";
@@ -7,7 +7,7 @@ import AddToPlaylistIcon from '../components/Media/CardIcons/AddToPlaylist';
 import MovieFilterUI, {
     titleFilter,
     genreFilter,
-} from "../components/Media/Movie/MovieSearchUI";
+} from "../components/Media/Movie/MovieFilterUI";
 import { DiscoverMovies } from '../types/interfaces';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/UI/Spinner';

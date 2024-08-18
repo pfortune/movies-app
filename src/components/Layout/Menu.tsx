@@ -20,6 +20,13 @@ interface MenuProps {
     isMobile: boolean;
 }
 
+interface MenuItem {
+    label: string;
+    path?: string;
+    icon?: React.ReactNode;
+    onClick?: () => void;
+}
+
 const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
     const navigate = useNavigate();
     const { user, signout } = useAuth();
@@ -29,7 +36,7 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
         if (isMobile) handleDrawerToggle();
     };
 
-    const menuOptions = [
+    const menuOptions: (MenuItem | "divider")[] = [
         { label: "Home", path: "/", icon: <HomeIcon /> },
         { label: "Popular Movies", path: "/movies/popular", icon: <StarIcon /> },
         { label: "Now Playing", path: "/movies/now-playing", icon: <MovieIcon /> },
@@ -57,11 +64,11 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle, isMobile }) => {
         <List>
             {menuOptions.map((opt, index) => (
                 opt === "divider" ? (
-                    <Divider key={index} sx={{ my: 2 }} />
+                    <Divider key={`divider-${index}`} sx={{ my: 2 }} />
                 ) : (
                     <ListItem
                         key={opt.label}
-                        onClick={opt.onClick ? opt.onClick : () => handleMenuSelect(opt.path!)}
+                        onClick={opt.onClick ? opt.onClick : () => opt.path && handleMenuSelect(opt.path)}
                         sx={{ cursor: 'pointer' }}
                     >
                         {opt.icon}

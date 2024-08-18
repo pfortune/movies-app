@@ -25,6 +25,7 @@ export interface BaseMovieProps extends BaseMediaProps {
   vote_count: number;
   favourite?: boolean;
   genre_ids?: number[];
+  [key: string]: any;
 }
 
 export interface BaseMovieListProps {

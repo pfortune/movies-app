@@ -1,4 +1,4 @@
-import { GetMoviesOptions } from "../types/interfaces";
+import { GetMoviesOptions, DiscoverMovies } from "../types/interfaces";
 
 const API_KEY = import.meta.env.VITE_TMDB_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -20,7 +20,7 @@ const fetchData = async (url: string) => {
 };
 
 // Movie-related API functions
-export const getMovies = async ({ filters = {}, sortBy = "popularity.desc", page = 1 }: GetMoviesOptions) => {
+export const getMovies = async ({ filters = {}, sortBy = "popularity.desc", page = 1 }: GetMoviesOptions): Promise<DiscoverMovies> => {
   let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&page=${page}&sort_by=${sortBy}`;
 
   if (filters.title) {
@@ -53,7 +53,6 @@ export const getMovies = async ({ filters = {}, sortBy = "popularity.desc", page
 
   return fetchData(url);
 };
-
 
 export const getMovie = async (id: string) => {
   const url = `${BASE_URL}/movie/${id}?api_key=${API_KEY}`;

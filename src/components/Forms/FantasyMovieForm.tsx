@@ -19,6 +19,7 @@ import Spinner from "../UI/Spinner";
 import { useQuery } from "@tanstack/react-query";
 
 export interface FantasyMovieFormData {
+    id?: number;
     title: string;
     description: string;
     genreId: string;

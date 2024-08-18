@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import FilterMoviesCard from "../components/Media/Movie/FilterMoviesCard";
+import FilterMoviesCard from "../components/Media/Movie/SearchMoviesCard";
 import { MemoryRouter } from "react-router";
 import { action } from "@storybook/addon-actions";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";

@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import FilterCard from "./FilterMoviesCard";
+import FilterMoviesCard from "./FilterMovieCard";
 import Fab from "@mui/material/Fab";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
+import Drawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
 import { BaseMovieProps } from "../../../types/interfaces";
-import MovieFilterIcon from '@mui/icons-material/MovieFilter';
-import SpicyTitle from "../../Layout/SpicyTitle";
 
+// Filter functions for the movie list by title and genre
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
-    return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
+    return movie.title.toLowerCase().includes(value.toLowerCase());
 };
 
 export const genreFilter = (movie: BaseMovieProps, value: string) => {
@@ -18,24 +16,28 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
     return genreId > 0 && genreIds ? genreIds.includes(genreId) : true;
 };
 
+// Styles for the filter drawer and the filter button
 const styles = {
     root: {
-        backgroundColor: "#bfbfbf",
+        backgroundColor: "#1a1a1a",
+    },
+    drawer: {
+        backgroundColor: "#1a1a1a",
+        color: "white",
+    },
+    fabContainer: {
+        position: "fixed",
+        bottom: 10,
+        left: 30,
     },
     fab: {
-        marginTop: 8,
-        position: "fixed",
-        top: 20,
-        right: 16,
-        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-    },
-    dialog: {
-        padding: '20px',
-        backgroundColor: '#ffffff',
-        borderRadius: '8px',
-    },
-    dialogContent: {
-        padding: '20px',
+        backgroundColor: "white",
+        color: "black",
+        borderRadius: "5px",
+        "&:hover": {
+            backgroundColor: "#666666",
+            color: "white",
+        },
     },
 };
 
@@ -43,48 +45,43 @@ interface MovieFilterUIProps {
     onFilterValuesChange: (f: string, s: string) => void;
     titleFilter: string;
     genreFilter: string;
-    startYearFilter: string;
-    endYearFilter: string;
+    startYearFilter?: string;
+    endYearFilter?: string;
 }
 
-const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, startYearFilter, endYearFilter }) => {
-    const [modalOpen, setModalOpen] = useState(false);
+const MovieFilterUI: React.FC<MovieFilterUIProps> = ({
+    onFilterValuesChange,
+    titleFilter,
+    genreFilter,
+}) => {
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
         <>
-            <Fab
-                color="primary"
-                variant="extended"
-                onClick={() => setModalOpen(true)}
-                sx={styles.fab}
-            >
-                <MovieFilterIcon sx={{ marginRight: '8px' }} />
-                Filter
-            </Fab>
-            <Dialog
-                open={modalOpen}
-                onClose={() => setModalOpen(false)}
-                aria-labelledby="filter-dialog-title"
+            <Box sx={styles.fabContainer}>
+                <Fab
+                    color="primary"
+                    variant="extended"
+                    onClick={() => setDrawerOpen(!drawerOpen)} // Toggle drawer open/close
+                    sx={styles.fab}
+                >
+                    Filter
+                </Fab>
+            </Box>
+            <Drawer
+                anchor="left"
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
                 PaperProps={{
-                    sx: styles.dialog,
+                    sx: styles.drawer,
                 }}
             >
-                <DialogTitle id="filter-dialog-title">
-                    <SpicyTitle>
-                        <MovieFilterIcon sx={{ marginRight: '8px', verticalAlign: 'middle' }} />
-                        Filter Movies
-                    </SpicyTitle>
-                </DialogTitle>
-                <DialogContent sx={styles.dialogContent}>
-                    <FilterCard
-                        onUserInput={onFilterValuesChange}
-                        titleFilter={titleFilter}
-                        genreFilter={genreFilter}
-                        startYearFilter={startYearFilter}
-                        endYearFilter={endYearFilter}
-                    />
-                </DialogContent>
-            </Dialog>
+                <FilterMoviesCard
+                    onUserInput={onFilterValuesChange}
+                    titleFilter={titleFilter}
+                    genreFilter={genreFilter}
+                />
+            </Drawer>
         </>
     );
 };
