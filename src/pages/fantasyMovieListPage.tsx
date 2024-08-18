@@ -29,7 +29,7 @@ const FantasyMovieListPage: React.FC = () => {
 
     return (
         <Box>
-            <FantasyMovieHeader title="Your Fantasy Movies" showCreateLink />
+            <FantasyMovieHeader title="All Fantasy Movies" showCreateLink />
 
             {movies && movies.length === 0 ? (
                 <Typography variant="h6">You haven't created any fantasy movies yet.</Typography>

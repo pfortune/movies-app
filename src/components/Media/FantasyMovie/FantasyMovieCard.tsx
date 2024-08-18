@@ -23,6 +23,7 @@ interface FantasyMovieCardProps {
 
 const transformMovieData = (movieFromDb: any): FantasyMovieFormData => {
     return {
+        id: movieFromDb.id,
         title: movieFromDb.title,
         description: movieFromDb.description,
         genreId: movieFromDb.genre_id,
@@ -118,7 +119,7 @@ const FantasyMovieCard: React.FC<FantasyMovieCardProps> = ({ movie, action }) =>
             </CardContent>
             <CardActions sx={{ justifyContent: 'center', paddingBottom: theme.spacing(2) }}>
                 {action && action(transformedMovie)}
-                <Link to={`/fantasy-movie/${transformedMovie.title}`} style={{ textDecoration: "none" }}>
+                <Link to={`/fantasy-movie/${transformedMovie.id}`} style={{ textDecoration: "none" }}>
                     <Button variant="contained" size="small" color="primary" sx={{ margin: theme.spacing(1) }}>
                         More Info
                     </Button>
