@@ -131,13 +131,23 @@ This combination of hands-on experience and structured learning has equipped me 
 
 #### Functionality
 
-- **Fantasy Movie:** 
-  - Users can create their fantasy movie adding details such as Title, Description, Genre, Release Date, Runtime, Director, Cast, Production company, and a Poster. They can also choose if the movie won an oscar.
-  - The movie is shown changing live to the right of the form.
-  - When the use is ready, they can save the movie to the database.
-  - They can view all fantasy movies created including their own.
-  - The fantasy movies show in cards like the other movies on the app.
-  - When a user clicks on the fantasy movie card, they are taken to a detail view of the movie.
+- **Fantasy Movie Creation:**
+  - Users have the ability to create a custom fantasy movie by inputting various details including the Title, Description, Genre, Release Date, Runtime, Director, Cast, Production Company, and a Poster image. Additionally, they can specify whether the movie has won an Oscar.
+  - A real-time preview of the fantasy movie is displayed on the right side of the form as the user enters the details, allowing for immediate visual feedback.
+  - Once all the details are entered to the user's satisfaction, the fantasy movie can be saved to the database with a single click.
+  - Users can browse and view all the fantasy movies they've created, as well as those created by others.
+  - The fantasy movies are presented in a visually appealing card format, consistent with the display of other movies in the app.
+  - Clicking on any fantasy movie card will take the user to a detailed view of that movie, showcasing all the information that was input during its creation.
+
+- **Additional Features:**
+  - **Pagination:** Pagination is implemented to handle large lists of movies, ensuring efficient navigation through content.
+  - **Supabase Auth with GitHub:** The app uses Supabase for authentication, allowing users to log in via GitHub.
+  - **Data Persistence:** User data such as favourites, playlists, and fantasy movies are persisted in a Supabase database for logged-in users.
+  - **Deployment:** The site is deployed on Vercel for easy access and performance optimization.
+  - **User Reviews:** User-generated reviews are displayed alongside reviews fetched from the API, offering a comprehensive view of movie feedback.
+  - **Navigation:** The app features a side navigation menu for easy access to different sections.
+  - **Feature Visibility:** Certain features are hidden or restricted for users who are not logged in, ensuring a personalised and secure user experience.
+
 
 ### Technical Stack
 
@@ -150,13 +160,14 @@ This combination of hands-on experience and structured learning has equipped me 
 
 - **Backend:** 
   - Integrated with a Vercel deployment.
+  - Supabase for user authentication and database management.
 
 - **Development Tools:** 
   - Storybook for UI component development and testing.
   - ESLint for code quality.
   - Vite for fast development and build processes.
 
-  ## Problems Encountered
+## Problems Encountered
 
 Earlier in the project, I had successfully implemented filtering functionality, and I even managed to integrate search functionality within this feature, which was also working well. However, when I attempted to split the search from the filter and create two separate components, something went awry. Despite my efforts, I couldn't get both features to work independently as intended.
 
