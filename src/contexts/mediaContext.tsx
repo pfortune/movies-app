@@ -385,8 +385,7 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
         try {
             const { data, error } = await supabase
                 .from("fantasy_movies")
-                .select("*")
-                .eq("user_id", user.id);
+                .select("*");
 
             if (error) {
                 console.error("Error fetching fantasy movies:", error.message);
