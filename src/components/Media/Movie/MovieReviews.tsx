@@ -27,15 +27,11 @@ const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
 
     useEffect(() => {
         const fetchReviews = async () => {
-            console.log("Fetching all reviews...");
-
             // Fetch TMDB reviews
             const apiReviews = await getMovieReviews(movie.id);
-            console.log("TMDB reviews fetched:", apiReviews);
 
             // Fetch local reviews
             const localReviews = await getAllReviewsForMovie(movie.id);
-            console.log("All local reviews fetched:", localReviews);
 
             // Combine and set reviews
             setReviews([...localReviews, ...apiReviews]);

@@ -33,7 +33,7 @@ const FantasyMovieDetailPage: React.FC = () => {
 
     return (
         <Box sx={{ mt: 4 }}>
-            <FantasyMovieHeader title={movie?.title || "Fantasy Movie Details"} showCreateLink showListLink /> {/* Show both links */}
+            <FantasyMovieHeader title={movie?.title || "Fantasy Movie Details"} showCreateLink showListLink />
             {movie ? (
                 <FantasyMovieDetails
                     movie={movie}

@@ -10,7 +10,6 @@ import { FantasyMovieFormData } from "../components/Forms/FantasyMovieForm";
 const FantasyMovieListPage: React.FC = () => {
     const { getFantasyMovies } = React.useContext(MediaContext);
 
-    // Using React Query's useQuery hook to fetch fantasy movies
     const { data: movies, isLoading, error } = useQuery<FantasyMovieFormData[], Error>({
         queryKey: ["fantasyMovies"],
         queryFn: getFantasyMovies,

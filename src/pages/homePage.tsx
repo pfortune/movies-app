@@ -4,19 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import Spinner from "../components/UI/Spinner";
 import AddToFavouritesIcon from "../components/Media/CardIcons/AddToFavourites";
 import { DiscoverMovies, BaseMovieProps } from "../types/interfaces";
-import { getMovies } from "../api/tmdb-api";
-import { MovieFilters } from "../types/interfaces";
+import { getTopRatedMovies } from "../api/tmdb-api";
 
 const HomePage: React.FC = () => {
-  const filters: MovieFilters = {
-    genre: "28",
-    startYear: "2022",
-    endYear: "2024",
-  };
-
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>({
-    queryKey: ["discover", filters],
-    queryFn: () => getMovies({ filters, sortBy: "popularity.desc", page: 1 }),
+    queryKey: ["topRated"],
+    queryFn: () => getTopRatedMovies(),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
   });
 
   if (isLoading) return <Spinner />;
@@ -26,9 +21,9 @@ const HomePage: React.FC = () => {
 
   return (
     <PageTemplate
-      title="Latest Movies"
+      title="Top Rated Movies"
       movies={movies}
-      action={(movie: BaseMovieProps) => <AddToFavouritesIcon movie={movie} />}
+      action={(movie: BaseMovieProps) => <><AddToFavouritesIcon movie={movie} /></>}
     />
   );
 };

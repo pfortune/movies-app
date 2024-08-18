@@ -162,12 +162,14 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
     const addToPlaylist = useCallback(async (media: BaseMediaProps) => {
         if (!user) return;
 
-        setPlaylist((prevPlaylist) => {
-            if (!prevPlaylist.includes(media.id)) {
-                return [...prevPlaylist, media.id];
-            }
-            return prevPlaylist;
-        });
+        // Check if the movie is already in the playlist
+        if (playlist.includes(media.id)) {
+            console.log("Movie is already in the playlist");
+            return;
+        }
+
+        // Add the movie to the playlist
+        setPlaylist((prevPlaylist) => [...prevPlaylist, media.id]);
 
         try {
             const { error } = await supabase
@@ -182,7 +184,8 @@ const MediaContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =
             console.error("Error in addToPlaylist:", err);
             setPlaylist((prevPlaylist) => prevPlaylist.filter((id) => id !== media.id));
         }
-    }, [user]);
+    }, [user, playlist]);
+
 
     // Remove from playlist and sync with Supabase
     const removeFromPlaylist = useCallback(async (media: BaseMediaProps) => {

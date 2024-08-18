@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import FilterMoviesCard from "./FilterMovieCard";
+import FilterMoviesCard from "./FilterMoviesCard";
 import Fab from "@mui/material/Fab";
-import Drawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
 import { BaseMovieProps } from "../../../types/interfaces";
+import MovieFilterIcon from '@mui/icons-material/MovieFilter';
+import SpicyTitle from "../../Layout/SpicyTitle";
 
-// Filter functions for the movie list by title and genre
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
     return movie.title.toLowerCase().includes(value.toLowerCase());
 };
@@ -16,21 +18,12 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
     return genreId > 0 && genreIds ? genreIds.includes(genreId) : true;
 };
 
-// Styles for the filter drawer and the filter button
+// Styles for the filter dialog and the filter button
 const styles = {
-    root: {
-        backgroundColor: "#1a1a1a",
-    },
-    drawer: {
-        backgroundColor: "#1a1a1a",
-        color: "white",
-    },
-    fabContainer: {
+    fab: {
         position: "fixed",
         bottom: 10,
         left: 30,
-    },
-    fab: {
         backgroundColor: "white",
         color: "black",
         borderRadius: "5px",
@@ -38,6 +31,15 @@ const styles = {
             backgroundColor: "#666666",
             color: "white",
         },
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    },
+    dialog: {
+        padding: '20px',
+        backgroundColor: '#ffffff',
+        borderRadius: '8px',
+    },
+    dialogContent: {
+        padding: '20px',
     },
 };
 
@@ -54,34 +56,41 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({
     titleFilter,
     genreFilter,
 }) => {
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     return (
         <>
-            <Box sx={styles.fabContainer}>
-                <Fab
-                    color="primary"
-                    variant="extended"
-                    onClick={() => setDrawerOpen(!drawerOpen)} // Toggle drawer open/close
-                    sx={styles.fab}
-                >
-                    Filter
-                </Fab>
-            </Box>
-            <Drawer
-                anchor="left"
-                open={drawerOpen}
-                onClose={() => setDrawerOpen(false)}
+            <Fab
+                color="primary"
+                variant="extended"
+                onClick={() => setModalOpen(true)}
+                sx={styles.fab}
+            >
+                <MovieFilterIcon sx={{ marginRight: '8px' }} />
+                Filter
+            </Fab>
+            <Dialog
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                aria-labelledby="filter-dialog-title"
                 PaperProps={{
-                    sx: styles.drawer,
+                    sx: styles.dialog,
                 }}
             >
-                <FilterMoviesCard
-                    onUserInput={onFilterValuesChange}
-                    titleFilter={titleFilter}
-                    genreFilter={genreFilter}
-                />
-            </Drawer>
+                <DialogTitle id="filter-dialog-title">
+                    <SpicyTitle>
+                        <MovieFilterIcon sx={{ marginRight: '8px', verticalAlign: 'middle' }} />
+                        Filter Movies
+                    </SpicyTitle>
+                </DialogTitle>
+                <DialogContent sx={styles.dialogContent}>
+                    <FilterMoviesCard
+                        onUserInput={onFilterValuesChange}
+                        titleFilter={titleFilter}
+                        genreFilter={genreFilter}
+                    />
+                </DialogContent>
+            </Dialog>
         </>
     );
 };

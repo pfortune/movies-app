@@ -54,6 +54,11 @@ export const getMovies = async ({ filters = {}, sortBy = "popularity.desc", page
   return fetchData(url);
 };
 
+export const getPopularMovies = async (page = 1): Promise<DiscoverMovies> => {
+  const url = `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`;
+  return fetchData(url);
+};
+
 export const getMovie = async (id: string) => {
   const url = `${BASE_URL}/movie/${id}?api_key=${API_KEY}`;
   return fetchData(url);
@@ -77,28 +82,18 @@ export const getMovieReviews = async (id: string | number) => {
   return data.results;
 };
 
-export const getUpcomingMovies = async ({ filters }: { filters: any }) => {
-  let { startYear, endYear } = filters;
+export const getUpcomingMovies = async () => {
+  const url = `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&include_adult=false&page=1`;
+  const data = await fetchData(url);
+  return data.results;
+};
 
-  // Swap startYear and endYear if startYear is later than endYear
-  if (startYear && endYear && startYear > endYear) {
-    [startYear, endYear] = [endYear, startYear];
-  }
+export const getNowPlayingMovies = async (page = 1): Promise<DiscoverMovies> => {
+  const url = `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=${page}`;
+  return fetchData(url);
+};
 
-  let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&page=1&sort_by=primary_release_date.desc&with_original_language=en&vote_count.gte=1000`;
-
-  if (startYear && endYear) {
-    url += `&primary_release_date.gte=${startYear}-01-01&primary_release_date.lte=${endYear}-12-31`;
-  } else if (startYear) {
-    url += `&primary_release_date.gte=${startYear}-01-01`;
-  } else if (endYear) {
-    url += `&primary_release_date.lte=${endYear}-12-31`;
-  }
-
-  if (filters.genre && filters.genre !== "0") {
-    url += `&with_genres=${filters.genre}`;
-  }
-
-  console.log("Final API URL:", url);  // Debugging
+export const getTopRatedMovies = async (): Promise<DiscoverMovies> => {
+  const url = `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US`;
   return fetchData(url);
 };

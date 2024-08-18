@@ -60,9 +60,11 @@ const App = () => {
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />
 
-                <Route path="/movies/popular" element={<PopularMoviesPage />} />
+                <Route path="/movies/popular/page/:page" element={<PopularMoviesPage />} />
+                <Route path="/movies/popular" element={<Navigate to="/movies/popular/page/1" />} />
                 <Route path="/movies/upcoming" element={<UpcomingMoviePage />} />
-                <Route path="/movies/now-playing" element={<NowPlayingMoviesPage />} />
+                <Route path="/movies/now-playing/page/:page" element={<NowPlayingMoviesPage />} />
+                <Route path="/movies/now-playing" element={<Navigate to="/movies/now-playing/page/1" />} />
                 <Route path="/movies/:id" element={<MoviePage />} />
 
                 {/* Protected Routes */}

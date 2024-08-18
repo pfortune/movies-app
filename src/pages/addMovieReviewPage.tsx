@@ -13,11 +13,11 @@ interface LocationState {
 
 const WriteReviewPage: React.FC = () => {
     const location = useLocation();
-    const { movieId } = location.state as LocationState; // Type assertion for safety
+    const { movieId } = location.state as LocationState;
 
     const { data: movie, error, isLoading, isError } = useQuery<MovieDetailsProps, Error>({
         queryKey: ["movie", movieId],
-        queryFn: () => getMovie(movieId.toString()), // Convert movieId to string
+        queryFn: () => getMovie(movieId.toString()),
     });
 
     if (isLoading) {
